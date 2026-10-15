@@ -1,0 +1,2 @@
+PASS: clock-health domain-qualified reset and original rate equations
+Checks=11; 3 domains async assertion/synchronous release; absent-clock startup; 250MHz nominal; ADC stop/restart; reset with ADC stopped; 125MHz TX rejected; disable clear

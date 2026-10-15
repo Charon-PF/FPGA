@@ -1,0 +1,1 @@
+foreach p {chipscope.oocip_save_work_area chipscope.createIpInWinTemp chipscope.max_win_temp_path chipscope.useSystemTempForIpSynth chipscope.maxJobs chipscope.implementDCParallel chipscope.implDbgCoreEnhancementAndRuns} {puts "$p = [get_param $p]"; puts [report_param $p]}

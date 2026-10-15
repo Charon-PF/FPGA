@@ -1,0 +1,119 @@
+Hardware CDC review -- 2026-10-14
+
+Scope / evidence
+  Current evidence: hardware_cdc.rpt, routed laser_lock_hw_top, Vivado 2024.1,
+  report timestamp 19:05:11, design state Physopt postRoute, after monitor-reset,
+  TX bus-skew-scope correction and final post-route hold optimization. The
+  previous 18:26:40 report is referenced only to explain the
+  removed 60 monitor-reset Critical findings. Current counts are listed below.
+  Also reviewed hw_ad9643_rx.v, hw_ad9122_tx.v, hw_clock_health.v,
+  laser_lock_hw_top.v, hardware_timing.tcl, hardware_bus_skew.rpt and the
+  fresh hardware_methodology.rpt (19:05:08). Current hardware_build_summary.txt
+  confirms setup slack +0.033ns and hold slack +0.011ns after physical hold
+  optimization. This timing result uses the documented provisional external
+  I/O envelope; it does not remove the CDC/methodology findings reviewed here.
+  No waiver, severity downgrade, XPR edit, or control-algorithm edit was made.
+
+Current summary (actual report)
+  CDC-1 Critical: 10; CDC-4 Critical: 1; CDC-7 Critical: 291;
+  CDC-10 Critical: 1; CDC-15 Warning: 34; CDC-3 Info: 11; CDC-9 Info: 12.
+
+CDC-1 actual rows / manual structure verification
+  work_unbuffered -> data_raw:
+    row1 u_init/sequence_done_reg/C -> u_tx/configured_sync_reg[0]/D (2 stages)
+    row2 u_health/clocks_ok_reg/C -> u_tx/enable_sync_reg[0]/D (2 stages)
+    row3 u_tx/source_epoch_reg/C -> u_tx/epoch_sync_reg[0]/D (3 stages)
+    row20 u_tx/request_toggle_reg/C -> u_tx/request_sync_reg[0]/D (3 stages)
+  work_unbuffered -> dco_capture_unbuffered:
+    row1 u_rx/acknowledge_toggle_reg/C -> u_rx/ack_sync1_reg/D (2 stages)
+    row2 u_init/sequence_done_reg/C -> u_rx/config_sync1_reg/D (2 stages)
+  data_raw -> work_unbuffered:
+    row3 u_tx/acknowledge_toggle_reg/C -> u_tx/acknowledge_sync_reg[0]/D (3 stages)
+  dco_capture_unbuffered -> work_unbuffered:
+    row17 u_rx/overflow_source_reg/C -> u_rx/overflow_sync1_reg/D (2 stages)
+    row18 u_rx/request_toggle_reg/C -> u_rx/req_sync1_reg/D (2 stages)
+    row19 u_rx/source_ready_reg/C -> u_rx/source_ready_sync1_reg/D (2 stages)
+  All ten have explicit ASYNC_REG two/three-stage chains in RTL; consumers use
+  the final stage. Only first-stage inputs are false-pathed. RX/TX synchronous
+  reset qualification on the register bodies makes the topology noncanonical
+  for the automatic detector. These are manually reviewed synchronizers, not
+  permission to discard the report or infer an MTBF guarantee from simulation.
+
+CDC-4 actual row / Gray counter
+  dco_capture_unbuffered -> work_unbuffered, row16:
+    u_rx/dropped_gray_source_reg[31:0]/C -> u_rx/drop_gray_sync1_reg[31:0]/D.
+  The source publishes registered Gray code, changing one bit per increment;
+  the bus crosses two ASYNC_REG stages before decode. max_delay datapath_only
+  4ns and bus_skew 4ns bound arrival versus the 4ns source period. This is not
+  an asynchronously sampled changing binary count. Current routed Gray skew
+  is 0.476ns, slack +3.524ns. The count is diagnostic and does not drive PI2D.
+
+CDC-7 actual reset groups / correction
+  All 291 current rows originate at key_reset_n; targets group as follows:
+    u_rx: 221 CLR targets; u_tx: 70 CLR targets; u_health: zero Critical targets.
+  RX and TX asynchronously assert on external reset/MMCM loss, and their
+  register bodies retain the reset value until the local three-stage pipe
+  releases. The raw CLR still deasserts asynchronously, so these findings
+  must not be described as formally clean recovery/removal coverage. Their
+  reset-qualification/startup behavior was checked in hardware unit tests.
+  The former 60 u_health rows were a genuine structural omission: its counter reset
+  release was not locally synchronized. This review prompted a hardware-only
+  correction: separate three-stage ADC/TX/work reset pipes now drive those
+  counters' asynchronous reset inputs with local synchronous deassertion.
+  The new routed CDC report confirms all 60 have disappeared and recognizes
+  u_health/adc_reset_pipe_reg[0]/PRE, tx_reset_pipe_reg[0]/PRE, and
+  work_reset_pipe_reg[0]/PRE as three-stage CDC-9 reset synchronizers.
+  Heartbeat divider, 1ms window, and frequency thresholds are unchanged.
+  Standalone XSim passed 11 checks: absent source clocks at startup, 250MHz
+  operation, ADC stop/restart, async reset with ADC stopped, 125MHz TX rejection,
+  and disable clearing. Reproducible top: sim/tb_hw_clock_health.v,
+  module tb_hw_clock_health, result clock_health_result.txt; shipped evidence:
+  hw_clock_health_result.txt. Top-level TX lock/active monitor bodies also use
+  synchronous if(hw_rst) in clk_work. No claim of zero Critical CDC findings
+  is made; RX/TX raw async CLR with locally qualified bodies remains reviewed.
+
+CDC-10 actual row / status sampling
+  data_raw -> work_unbuffered, row1:
+    u_tx/tx_reset_pipe_reg[2]/C -> tx_active_sync_reg[0]/D, depth2.
+  tx_active combines the TX-domain enable/configuration state and qualified
+  reset. It crosses two ASYNC_REG stages before LED/VIO status use. This is a
+  sampled level, not a payload, pulse counter, or control coefficient. A transient
+  may delay/flicker status; it does not bypass the TX payload handshake. Do not
+  reinterpret the first-stage status sample as coherent multi-bit state.
+
+Held mailboxes / CDC-15 and TIMING-39
+  RX rows2..15: mailbox_data_reg[13:0] -> adc_data_out_reg[13:0]. The source
+  holds the complete word through the returned acknowledgement; destination
+  capture follows the two-stage request chain. max_delay20ns and bus_skew10ns
+  remain active. Current routed skew 0.574ns, slack +9.426ns. ready-low output
+  stability, pending replacement, reset cancellation, and ordering passed XSim.
+  TX rows4..19: mailbox_epoch_reg -> held_code_reg[15:0] qualification paths.
+  mailbox_code and mailbox_epoch are both held through acknowledgement. A
+  three-stage request chain plus two extra destination settle ticks precedes
+  capture; code and epoch paths retain max_delay4ns. The current bus-skew
+  scope is narrowed to mailbox_code_reg[15:0] only, with the 4ns bound retained
+  on BOTH code and epoch. Current TX code skew is 0.511ns/slack +1.489ns.
+  Epoch is a held
+  scalar qualifier through comparison/enable logic, not a parallel code bit.
+  This corrects constraint scope without waiving a check or loosening payload
+  coherence. Fresh hardware_methodology.rpt at 19:05:08 confirms TIMING-39=1
+  remains at position87, first endpoint
+  u_tx/held_code_reg[0]/D: even the code-only paths have >1 logic level. Thus
+  this is not merely a cached warning and scope narrowing did not remove it.
+  The explicit 4ns max-delay bound on held code/epoch plus the approximately
+  20ns request/settle interval protects capture; the unsupported bus-skew
+  topology remains a disclosed methodology limitation, not a waiver. Do not
+  infer clean automatic CDC/bus-skew signoff from a positive skew table alone.
+
+Debug IP and conclusion
+  The debug-hub TCK/work crossings have nine recognized CDC-3 synchronizers,
+  two recognized CDC-9 resets, and four CDC-15 FIFO read-data warnings in the
+  vendor-generated IP. They are separate from the user hardware Critical rows.
+  ILA/VIO functional probes are sampled in the core work domain; they do not
+  provide a justification for ignoring RX/TX/reset findings.
+  No unprotected changing binary payload into PI2D or the physical DAC was
+  found. The monitor reset omission was corrected, rather than waived. Remaining
+  detector findings require the documented handshake/reset/status review and
+  final routed evidence. RTL/XSim checks do not simulate analog metastability
+  or certify reset recovery/removal MTBF; the raw RX/TX asynchronous CLR paths
+  remain explicit limitations even with local reset-value qualification.

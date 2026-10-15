@@ -1,0 +1,4 @@
+PASS: real UNISIM AD9643 Parallel Interleaved LVDS + CDC
+250MHz DDR with MMCM deskew/+375ps capture phase/100MHz core; PHY pairs=16843; mailbox DEC256=56 DEC1=1350
+Cadence events DEC256=63 DEC1=16729; accepted DEC256=54 DEC1=1348
+Coverage: A/B edge alignment, two-complement extrema, B offset-binary conversion, config/reset/restart, DEC256/DEC1, stable ready/data, request/ack mailbox hold, latest pending selection, exact drops/Gray CDC.

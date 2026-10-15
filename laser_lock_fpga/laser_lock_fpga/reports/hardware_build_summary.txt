@@ -1,0 +1,10 @@
+Vivado: 2024.1
+Part: xcau15p-ffvb676-2-i
+Synthesis: synth_design Complete!
+Implementation: write_bitstream Complete!
+Worst setup slack (ns): 0.033
+Worst hold slack (ns): 0.011
+ILA: enabled, 6 probes, 1024 samples.
+Project top: laser_lock_hw_top. Debug buses are internal.
+E15 internal servo: signed lock calibration, optical slope polarity, 100 kHz default scheduler, scaled actuator anti-windup.
+78 AXAU15 physical ports assigned. Bitstream generated. External I/O envelope PROVISIONAL; card level translation and actual board skew pending.

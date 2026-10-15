@@ -1,0 +1,426 @@
+
+=== PAGE 1 ===
+                                        璞致电子科技（上海）有限公司 
+ 1 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+璞致 PZ-FL4322 数据采集卡教程 
+           
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PAGE 2 ===
+                                        璞致电子科技（上海）有限公司 
+ 2 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+文档修订记录： 
+时间 版本 说明 
+2023.5.25 V1.0 初始版本 
+   
+   
+   
+ 
+本教程会根据实际的开发经验不断的修正、优化以及增加教程内容，为大
+家提供更多更好的例程，帮助大家成为行业大牛，尽绵薄之力。 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+
+=== PAGE 3 ===
+                                        璞致电子科技（上海）有限公司 
+ 3 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+目录 
+文档修订记录： ..........................................................................................................................................2 
+第一章：AD9643、AD9516 与 AD9122 简介 .................................................................................................4 
+1.1 AD9643 简介 ...............................................................................................................................4 
+1.2 AD9516 简介 ...............................................................................................................................4 
+1.3 AD9122 简介 ...............................................................................................................................5 
+第二章：PZ-FL4322 硬件说明 ........................................................................................................................6 
+2.1 硬件概述 .....................................................................................................................................6 
+2.2 板卡参数 .....................................................................................................................................7 
+第三章：FL4322 开发例程 ...............................................................................................................................8 
+3.1 功能概述 ......................................................................................................................................8 
+3.2 管脚配置 .....................................................................................................................................8 
+3.3 工程搭建 .................................................................................................................................. 10 
+3.4 运行结果如下 ......................................................................................................................... 15 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+=== PAGE 4 ===
+                                        璞致电子科技（上海）有限公司 
+ 4 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+第一章：AD9643、AD9516 与 AD9122 简介 
+1.1 AD9643 简介 
+AD9643 是一款双通道、14 位、 采样速率最高达250 MSPS 的模数转换器(ADC)，
+旨在为低成本、小尺寸、宽带宽、多功能通信应用提供解决方案。 
+这款双通道 ADC 采用多级、差分流水线架构，并集成了输出纠错逻辑。每个
+ADC 均具有宽带宽输入，支持用户可选的各种输入范围。集成基准电压源可简化
+设计。 占空比稳定器可用来补偿ADC 时钟占空比的波动， 使转换器保持出色的性
+能。 
+ADC 输出数据直接路由至两个外部 14 位 LVDS 输出端口，格式化为交错式或
+通道复用式。 
+需要时，灵活的关断选项可以明显降低功耗。 
+设置与控制编程利用三线式 SPI 兼容型串行接口来完成。 
+AD9643 采用 64 引脚 LFCSP 封装，额定温度范围为−40°C 至+85°C 工业温
+度范围。 
+1.2 AD9516 简介 
+AD9516 是一款集低相位噪声时钟发生和低抖动 14 通道时钟分配功能于一体
+的时钟分配器。其内部集成 1 个整数 N 分频的频率合成器、2 个参考输入端、1
+个压控振荡器(VCO)、可调延迟线和 14 个时钟驱动器，还包括 LVPECL、LVDS 和
+CMOS 输出。 
+另外，片内集成的VCO 可提高系统可靠性。14 个输出通道分别为 6 路(3 对)
+时钟可高达 1.6GHz 的 LVPECL 输出和 4 路(2 对)时钟高达 800MHz 的 LVDS 输出，
+LVDS 时钟输出可选为高达 200MHz 的两通道 CMOS 输出。 
+ 
+
+
+=== PAGE 5 ===
+                                        璞致电子科技（上海）有限公司 
+ 5 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+1.3 AD9122 简介 
+AD9122 是一款双通道、16 位、 高动态范围数模转换器(DAC)， 提供1230 MSPS
+采样速率， 可以产生最高达奈奎斯特频率的多载波。 它具有针对直接变频传输应
+用进行优化的特性， 包括复数数字调制以及增益与失调补偿。DAC 输出经过优化，
+可以与模拟正交调制器无缝接口，例如 ADI 公司的 ADL537x F-MOD 系列调制器。
+四线式串行端口允许对许多内部参数进行编程和回读。满量程输出电流可以在
+8.7 mA 至 31.7 mA 范围内进行编程。该器件采用 72 引脚 LFCSP 封装。 
+ 
+产品特色 
+    1.利用低噪声与交调失真(IMD)特性，从基带到高中频的宽带信号可以
+实现高质量合成。 
+    2.通过专有的 DAC 输出开关技术可增强动态性能。 
+    3.电流输出配置简便，可以用于各种单端或差分电路拓扑结构。 
+    4.灵活的 LVDS 数字接口允许标准 32 线式总线的宽度降至原来的½或¼。 
+ 
+应用 
+1.无线基础设施 
+    2.W-CDMA、CDMA2000、TD-SCDMA、WiMAX、GSM、LTE 
+    3.数字高/低中频合成 
+    4.发射分集 
+    5.宽带通信：LMDS/MMDS、点对点 
+ 
+ 
+ 
+ 
+ 
+
+
+=== PAGE 6 ===
+                                        璞致电子科技（上海）有限公司 
+ 6 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+第二章：PZ-FL4322 硬件说明 
+2.1 硬件概述 
+璞致PZ-FL4322 板卡采用ADI 公司的250MSPS 采样率ADC 芯片AD9643BCPZ-
+250、1230MSPS 采用率的 DAC 芯片AD9122BCPZ， 以及专用时钟芯片 AD9516-3BCPZ
+设计而成。 
+板卡具备双通道模拟信号输入、双通道模拟信号输出、一通道的触发信号输
+入、一通道的时钟输入。 
+板卡采用 FMC 接口设计，为LPC 标准接口，适配了璞致所有带 FMC 接口的开
+发板。 
+ 
+ 
+
+
+=== PAGE 7 ===
+                                        璞致电子科技（上海）有限公司 
+ 7 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+2.2 板卡参数 
+    如下表详细描述了板卡的参数指标，需要特别说明的是，板卡 ADC 默认
+为直流模式，巴伦不贴装，需要交流模式要提前说明。交流/直流模式需要更改
+板卡上的电阻和巴伦等，详细可以参考原理图第四页。 
+ 
+ 
+ 
+  
+
+
+=== PAGE 8 ===
+                                        璞致电子科技（上海）有限公司 
+ 8 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+第三章：FL4322 开发例程 
+3.1 功能概述 
+本例程通过 SPI 控制 AD9516 输出时钟分别给 AD9643 和 AD9122,并通过 ILA
+抓取两路 AD9643 采集的数据，转成模拟显示，AD9643 抓取的数据即 AD9122 输
+出的信号。本例程采用 PZ7100-FH 开发板进行说明，Xilinx 全系列都可以参考。 
+注意: KU/ZCU 系列使用的 Vivado 为 2021.1 版本 
+ZYNQ7000/K7 系列使用的 Vivado 为 2019.1 版本 
+          除版本不一样，其他操作完全一样 
+3.2 管脚配置 
+管脚约束如下（不同平台开发板，管脚不同，需要根据购买型号定义管脚）： 
+set_property BITSTREAM.GENERAL.COMPRESS TRUE [current_design] 
+set_property IOSTANDARD LVDS [get_ports clk_p] 
+set_property PACKAGE_PIN H9  [get_ports clk_p] 
+set_property IOSTANDARD LVCMOS33 [get_ports rstn] 
+set_property PACKAGE_PIN AD18 [get_ports rstn] 
+set_property -dict {PACKAGE_PIN N27  IOSTANDARD LVCMOS25} [get_ports 
+spi_clk] 
+set_property -dict {PACKAGE_PIN N26  IOSTANDARD LVCMOS25} [get_ports 
+spi_io] 
+#####################CLK-MD########################################## 
+set_property -dict {PACKAGE_PIN AF13 IOSTANDARD LVCMOS25} [get_ports 
+clk_spi_ce] 
+set_property -dict {PACKAGE_PIN P24 IOSTANDARD LVCMOS25} [get_ports 
+dac_spi_ce] 
+################################################################ 
+set_property -dict {PACKAGE_PIN P23  IOSTANDARD LVCMOS25} [get_ports 
+adc_spi_ce] 
+set_property PACKAGE_PIN  AB27  [get_ports {adc_data_p1[0]}] 
+set_property PACKAGE_PIN  AE27  [get_ports {adc_data_p1[1]}] 
+set_property PACKAGE_PIN  T30  [get_ports {adc_data_p1[2]}] 
+set_property PACKAGE_PIN  P21  [get_ports {adc_data_p1[3]}] 
+set_property PACKAGE_PIN  R25  [get_ports {adc_data_p1[4]}] 
+set_property PACKAGE_PIN  N28  [get_ports {adc_data_p1[5]}] 
+set_property PACKAGE_PIN  T24  [get_ports {adc_data_p1[6]}] 
+set_property PACKAGE_PIN  U22  [get_ports {adc_data_p1[7]}] 
+set_property PACKAGE_PIN  W29  [get_ports {adc_data_p1[8]}] 
+
+=== PAGE 9 ===
+                                        璞致电子科技（上海）有限公司 
+ 9 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+set_property PACKAGE_PIN  N29  [get_ports {adc_data_p1[9]}] 
+set_property PACKAGE_PIN  U24  [get_ports {adc_data_p1[10]}] 
+set_property PACKAGE_PIN  W25  [get_ports {adc_data_p1[11]}] 
+set_property PACKAGE_PIN  R22  [get_ports {adc_data_p1[12]}] 
+set_property PACKAGE_PIN  V28  [get_ports {adc_data_p1[13]}] 
+set_property PACKAGE_PIN  R27  [get_ports {adc_clk_p}] 
+set_property -dict {  IOSTANDARD LVDS_25   DIFF_TERM true}  [get_ports 
+{adc_data_p1[*]}] 
+set_property -dict {  IOSTANDARD LVDS_25   DIFF_TERM true}   
+[get_ports {adc_clk_p}] 
+create_clock -period 4.000 -name {adc_clk_p} -waveform {0.000 2.000} 
+[get_ports {adc_clk_p}] 
+set_property PACKAGE_PIN  U25  [get_ports {fpga_clk_p}] 
+set_property -dict {  IOSTANDARD LVDS_25   DIFF_TERM true}   
+[get_ports {fpga_clk_p}] 
+create_clock -period 2.000 -name {fpga_clk_p} -waveform {0.000 1.000} 
+[get_ports {fpga_clk_p}] 
+set_false_path -from [get_pins u5/done_flag_reg/C] -to [get_pins 
+{u1/done_flag_rr_reg[0]/D}] 
+set_property PACKAGE_PIN AG26  [get_ports {dac_data_p[0]}] 
+set_property PACKAGE_PIN AD25  [get_ports {dac_data_p[1]}] 
+set_property PACKAGE_PIN Y30   [get_ports {dac_data_p[2]}] 
+set_property PACKAGE_PIN AH26  [get_ports {dac_data_p[3]}] 
+set_property PACKAGE_PIN AJ26  [get_ports {dac_data_p[4]}] 
+set_property PACKAGE_PIN AC29  [get_ports {dac_data_p[5]}] 
+set_property PACKAGE_PIN AD30  [get_ports {dac_data_p[6]}] 
+set_property PACKAGE_PIN V23   [get_ports {dac_data_p[7]}] 
+set_property PACKAGE_PIN AF30  [get_ports {dac_data_p[8]}] 
+set_property PACKAGE_PIN Y26   [get_ports {dac_data_p[9]}] 
+set_property PACKAGE_PIN AJ30  [get_ports {dac_data_p[10]}] 
+set_property PACKAGE_PIN P30  [get_ports {dac_data_p[11]}] 
+set_property PACKAGE_PIN T29  [get_ports {dac_data_p[12]}] 
+set_property PACKAGE_PIN P25  [get_ports {dac_data_p[13]}] 
+set_property PACKAGE_PIN T22  [get_ports {dac_data_p[14]}] 
+set_property PACKAGE_PIN R28  [get_ports {dac_data_p[15]}] 
+set_property -dict {  IOSTANDARD LVDS_25   DIFF_TERM true}  [get_ports 
+{dac_data_p[*]}] 
+set_property PACKAGE_PIN  V27  [get_ports {dac_frame_p}] 
+set_property -dict {  IOSTANDARD LVDS_25   DIFF_TERM true}   
+[get_ports {dac_frame_p}] 
+set_property PACKAGE_PIN  U26  [get_ports {dac_dci_p}] 
+set_property -dict {  IOSTANDARD LVDS_25   DIFF_TERM true}   
+[get_ports {dac_dci_p}] 
+
+=== PAGE 10 ===
+                                        璞致电子科技（上海）有限公司 
+ 10 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+3.3 工程搭建 
+先启动 VIVADO， 创建工程， 输入工程名字和工程路径， 工程路径可以通
+过浏览文件夹选择 
+ 
+ 
+选择 RTL Project 并且勾选复选框，之后单击 NEXT 
+ 
+
+
+=== PAGE 11 ===
+                                        璞致电子科技（上海）有限公司 
+ 11 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+选择芯片的型号和封装速度等级 
+用户根据购买的开发板型号,自行选择型号; 
+ 
+ 
+ 
+单击 Finish 完成工程创建 
+ 
+ 
+显示界面如下 
+ 
+
+
+=== PAGE 12 ===
+                                        璞致电子科技（上海）有限公司 
+ 12 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+添加代码 
+ 
+     
+ 
+依次选择工程路径下 PZ_2AD9643\project_1.srcs\sources_1 的 ip 和 new
+文件夹里面的文件，如下图： 
+ 
+
+
+=== PAGE 13 ===
+                                        璞致电子科技（上海）有限公司 
+ 13 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+添加管脚约束文件， 选择FMC_FL4322\project_1.srcs\constrs_1\new 文件
+夹里面的文件，如下图 
+ 
+全部添加完成，如下图 
+ 
+编译并且产生 bit 文件 
+1:单击综合 
+2:单击执行 
+3:单击产生 bit 
+
+
+=== PAGE 14 ===
+                                        璞致电子科技（上海）有限公司 
+ 14 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+ 
+下载程序 
+1：给开发板通电，并且连接下载器 
+2：单击 OpenTarget 然后单击 Auto Connect 
+ 
+ 
+连接成功如下： 
+ 
+单击 Program Device（也可以从顶部单击 Program device） 
+弹出的对话框中有我们要下载的 Bit 文件 
+
+
+=== PAGE 15 ===
+                                        璞致电子科技（上海）有限公司 
+ 15 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+ 
+下载过程 
+ 
+3.4 运行结果如下 
+下载完成后，ILA 自动运行，我们点击红色方框抓取数据，然后切换到模拟
+显示，如下图： 
+ 
+
+
+=== PAGE 16 ===
+                                        璞致电子科技（上海）有限公司 
+ 16 / 16 
+璞写当下，致远未来                                                      www.puzhitech.com 
+ 
+ 
+ 
+如上图，ILA 可以显示 AD9122 输入的波形，三角波、方波及 sin 波形，循环显
+示。RAM 容量小的开发板，显示两种波形。 

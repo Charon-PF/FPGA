@@ -1,0 +1,1039 @@
+
+=== PAGE 1 ===
+ARTIX UltraScale+ FPGA
+用户手册
+AXAU15
+REV 1.0 版
+芯驿电子科技（上海）有限公司
+WWW.ALINX.COM
+
+=== PAGE 2 ===
+AXAU15 Datasheet
+2 / 39 www.alinx.com
+2 / 39
+目录
+目录 ...........................................................................................................................................2
+一、 开发板简介 ....................................................................................................................4
+二、 FPGA 核心板 ................................................................................................................ 6
+(一) 简介 ......................................................................................................................... 6
+(二) FPGA ........................................................................................................................7
+(三) 有源差分晶振 ........................................................................................................ 8
+(四) DDR4 .....................................................................................................................10
+(五) QSPI Flash ........................................................................................................... 12
+(六) LED 灯 ................................................................................................................... 13
+(七) 电源 .......................................................................................................................14
+(八) 扩展接口 .............................................................................................................. 15
+(九) 结构图 ...................................................................................................................21
+三、 扩展板 ..........................................................................................................................21
+(一) 简介 .......................................................................................................................21
+(二) 千兆以太网接口 ..................................................................................................22
+(三) PCIe4.0 X4 接口 ................................................................................................. 23
+(四) FMC 连接器 ......................................................................................................... 25
+(五) USB 转串口 .......................................................................................................... 29
+(六) TF 卡槽 .................................................................................................................. 29
+(七) EEPROM 24LC04 ...............................................................................................30
+(八) JTAG 接口 .............................................................................................................31
+(九) 拓展口 ...................................................................................................................32
+(十) 按键 .......................................................................................................................35
+(十一) LED 灯 ............................................................................................................... 36
+(十二) 供电电源 .......................................................................................................... 37
+(十三) 结构尺寸图 ...................................................................................................... 39
+
+=== PAGE 3 ===
+AXAU15 Datasheet
+3 / 39 www.alinx.com
+3 / 39
+黑金 ARTIX UltraScale+系列的高端 FPGA 开发平台（型号：AXAU15）正式发布
+了，为了让您对此开发平台可以快速了解，我们编写了此用户手册。
+这款 ARTIX UltraScale+开发平台采用核心板加扩展板的模式，方便用户对核心板
+的二次开发利用。在底板设计上我们采用了 2 路 40pin 拓展接口，FMC 模块接口，1
+路以太网口和 PCIe4.0 x4 接口满足用户的高速数据传输和交换的要求，是一款数据通
+信的“专业级”和"全能级“开发平台。相信这样的一款产品非常适合从事数据通信和
+视频图像处理的学生、工程师等群体。
+
+
+=== PAGE 4 ===
+AXAU15 Datasheet
+4 / 39 www.alinx.com
+4 / 39
+一、 开发板简介
+在这里，对这款 AXAU15 FPGA 开发平台进行简单的功能介绍。
+开发板的整个结构，继承了我们一贯的核心板+扩展板的模式来设计的。核心板和
+扩展板之间使用高速板间连接器连接。
+核心板主要由 FPGA + 1 个 DDR4 + QSPI FLASH 构成，承担 FPGA 高速数据处
+理和存储的功能，加上 FPGA 和一片 DDR4 之间的高速数据读写，数据位宽为 16 位，
+整个系统的带宽高达 12.5Gb/s（800M*16bit)；另外 DDR4 容量高达 8Gbit，满足数
+据处理过程中对高缓冲区的需求。我们选用的 FPGA 为 XILINX 公司 ARTIX UltraScale+
+系列的 XCAU15P 芯片。我们选用的 FPGA 是 FFVB676 封装。XCAU15P 和 DDR4 之
+间通信的时钟频率达到 1200Mhz，数据速率为 2400bps，充分满足了高速多路数据处
+理的需求。另外 XCAU15P 带有 12 路 GTH 高速收发器，每路速度高达 12.5Gb/s，非
+常适合用于光纤通信和 PCIe 数据通信。
+下图为整个开发系统的结构示意图：
+通过这个示意图，我们可以看到，我们这个开发平台所能实现的功能。
+
+=== PAGE 5 ===
+AXAU15 Datasheet
+5 / 39 www.alinx.com
+5 / 39
+ ARTIX UltraScale+核心板
+由 XCAU15P+8Gb DDR4+256Mb QSPI FLASH 组成，另外有两个高精度 Sitime
+公司的 LVDS 差分晶振，一个是 200MHz，另一个是 156.25MHz，为 FPGA 系统和
+GTH 模块提供稳定的时钟输入。
+一路 10/100M/1000M 以太网 RJ-45 接口
+千兆以太网接口芯片采用景略公司的 JL2121 以太网 PHY 芯片为用户提供网络通信
+服务。JL2121 芯片支持 10/100/1000 Mbps 网络传输速率; 全双工和自适应。
+一路 USB Uart 调试接口
+一路 Uart 转 USB 接口，用于和电脑通信，方便用户调试。串口芯片采用 Silicon Labs
+CP2102GM 的 USB-UAR 芯片, USB 接口采用 MINI USB 接口。
+PCIe x4 接口
+支持 PCI Express 4.0 标准，提供标准的 PCIe x4 高速数据传输接口。
+Micro SD 卡座
+1 路 Micro SD 卡座，用于存储操作系统镜像和文件系统。
+40 针扩展口
+预留 2 个 40 针 2.54mm 间距的扩展口，可以外接黑金的各种模块（双目摄像头，
+TFT LCD 屏，高速 AD 模块等等）。扩展口包含 5V 电源 1 路，3.3V 电源 2 路，地 3
+路，IO 口 34 路。
+JTAG 口
+10 针 2.54mm 标准的 JTAG 口，用于 FPGA 程序的下载和调试;
+按键
+2 个用户按键；
+LED 灯
+5 个 LED（1 个在核心板，4 个在扩展板）；
+
+=== PAGE 6 ===
+AXAU15 Datasheet
+6 / 39 www.alinx.com
+6 / 39
+二、 FPGA 核心板
+(一) 简介
+ACAU15 (核心板型号，下同)核心板，是基于 XILINX 公司的 ARTIX
+UltraScale+系列的 XCAU15P-2FFVB676I 这款芯片开发的高性能核心板，
+具有高速，高带宽，高容量等特点，适合高速数据通信，视频图像处理，
+高速数据采集等方面使用。
+这款核心板使用了 1 片 MICRON 公司的 MT40A512M16LY-062EIT
+这款 DDR4 芯片，有 16 位数据总线带宽和 8Gb 的容量；DDR4 SDRAM
+的最高运行速度可达 1200MHz(数据速率 2400Mbps)。另外核心板上也集
+成了 1 片 256MBit 大小的 QSPI FLASH，用于启动存储配置和系统文件。
+这款核心板扩展出 72 个 3.3V 电平标准 IO 口，102 个 1.8V 电平标准
+IO 口，还有 12 对 GTH 高速 RX/TX 差分信号。对于需要大量 IO 的用户，
+此核心板将是不错的选择。而且，FPGA 芯片到接口之间走线做了等长和差
+分处理，并且核心板尺寸仅为 45*55（mm），对于二次开发来说，非常
+适合。
+
+=== PAGE 7 ===
+AXAU15 Datasheet
+7 / 39 www.alinx.com
+7 / 39
+ACAU15 核心板正面图
+(二) FPGA
+前面已经介绍过了，我们所使用的 FPGA 型号为 XCAU15P-2FFVB676I，属于
+Xilinx 公司 ARTIX UltraScale+系列的产品，速度等级为 2，温度等级为工业级。此型
+号为 FFVB676 封装，676 个引脚。ARTIX UltraScale+ FPGA 的芯片命名规则如下：
+
+
+=== PAGE 8 ===
+AXAU15 Datasheet
+8 / 39 www.alinx.com
+8 / 39
+其中 FPGA 芯片 XCAU15P 的主要参数如下所示：
+名称 具体参数
+逻辑单元 Logic Cells 170100
+查找表(CLB LUTs) 77760
+触发器(CLB flip-flops) 155520
+Block RAM（kb）大小 5223
+DSP 处理单元（DSP Slices） 576
+时钟管理单元（CMTs） 3
+GTH 16.3Gb/s 收发器 12
+速度等级 -2
+温度等级 工业级
+(三) 有源差分晶振
+ACAU15 核心板上配有两个 Sitime 公司的有源差分晶振，一个是 200MHz，型号
+为 SiT9121AI-2B1-33E200.000000，用于 FPGA 的系统主时钟和用于产生 DDR4 控制
+时钟；另一个为 156.25MHz，型号为 SiT9121AI-2B1-33E156.250000，用于 GTH 收
+发器的参考时钟输入。
+1). 200Mhz 差分时钟
+图 3.1 中的 G1 即为我们上述提到的给开发板提供的系统时钟源 200M 有源差分晶
+振电路。晶振输出连接到 FPGA 的 BANK65 全局时钟管脚 MRCC(T24 和 U24)，这个
+200Mhz 的差分时钟可以用来驱动 FPGA 内的用户逻辑电路，用户可以通过配置 FPGA
+内部的 PLLs 和 DCMs 来产生不同频率的时钟。
+
+=== PAGE 9 ===
+AXAU15 Datasheet
+9 / 39 www.alinx.com
+9 / 39
+图 2-3-1 200M 有源差分晶振
+时钟引脚分配：
+引脚名称 FPGA 引脚
+SYS_CLK_P T24
+SYS_CLK_N U24
+2). 156.25Mhz 差分时钟
+图 2-3-2 中的 G2 即为 156.25M 有源差分晶振电路，此时钟是给 FPGA 内部的 GTH
+模 块 提 供 的 参 考 输 入 时 钟 。 晶 振 输 出 连 接 到 FPGA GTH 的 BANK225 时 钟 管 脚
+MGTREFCLK1P_225(T7)和 MGTREFCLK1N_225(T6)。
+图 2-3-2 156.25Mhz 有源差分晶振
+
+=== PAGE 10 ===
+AXAU15 Datasheet
+10 / 39 www.alinx.com
+10 / 39
+时钟引脚分配：
+引脚名称 FPGA 引脚
+GTH_CLK0_P T7
+GTH_CLK0_N T6
+(四) DDR4
+ACAU15 核 心 板 上 配 有 Micron( 美 光 ） 的 8Gbit 的 DDR4 芯 片 , 型 号 为
+MT40A512M16LY-062EIT。DDR 的总线宽度共为 16bit。DDR4 SDRAM 的最高运行
+速度可达 1200MHz(数据速率 2400Mbps)。该 DDR4 存储系统直接连接到了 FPGA 的
+BANK 66 的存储器接口上。DDR4 SDRAM 的具体配置如下表 2-4-1 所示。
+表 2-4-1 DDR3 SDRAM 配置
+位号 芯片类型 容量 厂家
+U2 MT40A512M16LY-062EIT 512M x 16bit micron
+DDR4 的硬件设计需要严格考虑信号完整性，我们在电路设计和 PCB 设计的时候
+已经充分考虑了匹配电阻/终端电阻,走线阻抗控制，走线等长控制，保证 DDR4 的高速
+稳定的工作。
+FPGA 和 DDR4 DRAM 的硬件连接方式如图 2-4-1 所示:
+图2-4-1 DDR4 DRAM原理图部分
+DDR4 DRAM 引脚分配：
+信号名称 FPGA 引脚名 FPGA 管脚号
+
+=== PAGE 11 ===
+AXAU15 Datasheet
+11 / 39 www.alinx.com
+11 / 39
+PL_DDR4_A0 IO_L13N_T2L_N1_GC_QBC_66 G25
+PL_DDR4_A1 IO_L8N_T1L_N3_AD5N_66 M26
+PL_DDR4_A2 IO_L10N_T1U_N7_QBC_AD4N_66 L25
+PL_DDR4_A3 IO_L19N_T3L_N1_DBC_AD9N_66 E26
+PL_DDR4_A4 IO_L8P_T1L_N2_AD5P_66 M25
+PL_DDR4_A5 IO_T3U_N12_66 F22
+PL_DDR4_A6 IO_L17P_T2U_N8_AD10P_66 H26
+PL_DDR4_A7 IO_L16P_T2U_N6_QBC_AD3P_66 F24
+PL_DDR4_A8 IO_L17N_T2U_N9_AD10N_66 G26
+PL_DDR4_A9 IO_L12P_T1U_N10_GC_66 J23
+PL_DDR4_A10 IO_L15P_T2L_N4_AD11P_66 J25
+PL_DDR4_A11 IO_L12N_T1U_N11_GC_66 J24
+PL_DDR4_A12 IO_L16N_T2U_N7_QBC_AD3N_66 F25
+PL_DDR4_A13 IO_L14N_T2L_N3_GC_66 H24
+PL_DDR4_ACT_B IO_L9P_T1L_N4_AD12P_66 K25
+PL_DDR4_BA0 IO_L15N_T2L_N5_AD11N_66 J26
+PL_DDR4_BA1 IO_T2U_N12_66 G22
+PL_DDR4_BG0 IO_L7P_T1L_N0_QBC_AD13P_66 L22
+PL_DDR4_CAS_B IO_L18N_T2U_N11_AD2N_66 H22
+PL_DDR4_CKE IO_L7N_T1L_N1_QBC_AD13N_66 L23
+PL_DDR4_CLK_N IO_L11N_T1U_N9_GC_66 K23
+PL_DDR4_CLK_P IO_L11P_T1U_N8_GC_66 K22
+PL_DDR4_CS_B IO_L14P_T2L_N2_GC_66 H23
+PL_DDR4_PAR IO_L10P_T1U_N6_QBC_AD4P_66 L24
+PL_DDR4_RAS_B IO_L18P_T2U_N10_AD2P_66 H21
+PL_DDR4_OTD IO_T1U_N12_66 M24
+PL_DDR4_WE_B IO_L9N_T1L_N5_AD12N_66 K26
+PL_DDR4_DM0 IO_L19P_T3L_N0_DBC_AD9P_66 E25
+PL_DDR4_DM1 IO_L1P_T0L_N0_DBC_66 L18
+PL_DDR4_DQ0 IO_L20P_T3L_N2_AD1P_66 F23
+PL_DDR4_DQ1 IO_L21N_T3L_N5_AD8N_66 D25
+
+=== PAGE 12 ===
+AXAU15 Datasheet
+12 / 39 www.alinx.com
+12 / 39
+PL_DDR4_DQ2 IO_L20N_T3L_N3_AD1N_66 E23
+PL_DDR4_DQ3 IO_L24N_T3U_N11_66 B26
+PL_DDR4_DQ4 IO_L21P_T3L_N4_AD8P_66 D24
+PL_DDR4_DQ5 IO_L23P_T3U_N8_66 D26
+PL_DDR4_DQ6 IO_L24P_T3U_N10_66 B25
+PL_DDR4_DQ7 IO_L23N_T3U_N9_66 C26
+PL_DDR4_DQ8 IO_L2P_T0L_N2_66 M20
+PL_DDR4_DQ9 IO_L3N_T0L_N5_AD15N_66 J20
+PL_DDR4_DQ10 IO_L3P_T0L_N4_AD15P_66 J19
+PL_DDR4_DQ11 IO_L2N_T0L_N3_66 M21
+PL_DDR4_DQ12 IO_L6P_T0U_N10_AD6P_66 L20
+PL_DDR4_DQ13 IO_L5N_T0U_N9_AD14N_66 J21
+PL_DDR4_DQ14 IO_L6N_T0U_N11_AD6N_66 K20
+PL_DDR4_DQ15 IO_L5P_T0U_N8_AD14P_66 K21
+PL_DDR4_DQS0_N IO_L22N_T3U_N7_DBC_AD0N_66 C24
+PL_DDR4_DQS0_P IO_L22P_T3U_N6_DBC_AD0P_66 D23
+PL_DDR4_DQS1_N IO_L4N_T0U_N7_DBC_AD7N_66 L19
+PL_DDR4_DQS1_P IO_L4P_T0U_N6_DBC_AD7P_66 M19
+PL_DDR4_RST IO_L13P_T2L_N0_GC_QBC_66 G24
+(五) QSPI Flash
+核 心 板 上 使 用 了 一 片 256Mbit 大 小 的 QSPI FLASH 芯 片 ， 型 号 为
+MT25QU256ABA1EW9-0SIT ，它使用 1.8V CMOS 电压标准。由于它的非易失特性，
+在使用中，QSPI FLASH 可以作为 FPGA 系统的启动镜像。这些镜像主要包括 FPGA 的
+bit 文件、软核的应用程序代码以及其它的用户数据文件。
+SPI FLASH的具体型号和相关参数见下表
+位号 芯片类型 容量 厂家
+U35 MT25QU256ABA1EW9-0SIT 256M Bit Micron
+表2-5-1 QSPI Flash的型号和参数
+
+=== PAGE 13 ===
+AXAU15 Datasheet
+13 / 39 www.alinx.com
+13 / 39
+QSPI FLASH 连接到 FPGA 芯片的 BANK0 的专用管脚上，其中时钟管脚连接到
+BANK0 的 CCLK0 上，其它数据和片选信号分别连接到 BANK0 的 D00~D03 和 FCS
+管脚上。图 2-5-1 为 QSPI Flash 和 FPGA 芯片的连接示意图。
+图 2-5-1 QSPI Flash 连接示意图
+配置芯片引脚分配：
+信号名称 FPGA 引脚名 FPGA 管脚号
+QSPI_CLK CCLK_0 Y11
+QSPI_CS RDWR_FCS_B_0 AA12
+QSPI_DQ0 D00_MOSI_0 AD11
+QSPI_DQ1 D01_DIN_0 AC12
+QSPI_DQ2 D02_0 AC11
+QSPI_DQ3 D03_0 AE11
+(六) LED 灯
+ACAU15 核心板上有 1 个红色 LED 灯，是电源指示灯(PWR)。当核心板供电后，
+电源指示灯会亮起；LED 灯硬件连接的示意图如图 2-6-1 所示：
+图 2-6-1 开发板 LED 灯硬件连接示意图
+
+=== PAGE 14 ===
+AXAU15 Datasheet
+14 / 39 www.alinx.com
+14 / 39
+(七) 电源
+ACAU15 核心板供电电压范围为+5V~+17V（典型值+12V），通过连接底板给核
+心板供电。核心板上通过 TPS54821RHL DCDC 电源芯片为 XCAU15P 提供核心电源
+0.85V, 另外 BANK64，BANK65，BANK66 的电源用 DCDC 芯片 ETA1471 产生，用
+户 可 以 替 换 电 阻 改 变 IO 的 电 平 为 1.2V （ 注 意 这 些 BANK 的 电 源 不 能 高 于
+1.8V）,BANK84,85,86 的 IO 电平为 3.3V。GTH 收发器的电源由 LDO 芯片产生。
+因为 Artix UltraScale+ FPGA 的电源有上电顺序的要求，在电路设计中，我们已
+经按照 芯片的电源要求设计，上电依次为 VCCINT(1.0V)->VCCBRAM(1.0V)->（1.5
+V、3.3V、VCCIO）和 1.0V-> MGTAVCC -> MGTAVTT 的电路设计，保证芯片的正常
+工作。
+
+=== PAGE 15 ===
+AXAU15 Datasheet
+15 / 39 www.alinx.com
+15 / 39
+(八) 扩展接口
+核心板的背面一共扩展出 4 个高速扩展口，使用 4 个 80Pin 的板间连接器和底板
+连接，FPGA 的 IO 口通过差分走线方式连接到这 4 个扩展口上。连接器的 PIN 脚间距
+为 0.5mm，和底板的母座连接器配置实现高速数据通信。
+扩展口 CON1
+80Pin 的连接器 CON1 用来连接底板的 VCCIN 电源(+12V),地和 FPGA 的普通 IO，
+这里需要注意，CON1 的有 52 个管脚是连接到 BANK64 的 IO 口，电压标准都是 1.8V
+的。CON1 扩展口的管脚分配如表 2-10-1 所示：
+2-10-1 表：扩展口 CON1 引脚分配
+CON1
+管脚
+信号
+名称
+FPGA
+管脚号
+电平
+标准
+CON1
+管脚
+信号
+名称
+FPGA
+管脚号
+电平
+标准
+PIN1 VCCIN - 12V PIN2 VCCIN - 12V
+PIN3 VCCIN - 12V PIN4 VCCIN - 12V
+PIN5 VCCIN - 12V PIN6 VCCIN - 12V
+PIN7 VCCIN - 12V PIN8 VCCIN - 12V
+PIN9 GND - 地 PIN10 GND - 地
+PIN11 B64_T0U AF23 1.8V PIN12 B64_L4_N AD26 1.8V
+PIN13 B64_T1U AF20 1.8V PIN14 B64_L4_P AC26 1.8V
+PIN15 B64_T2U AE18 1.8V PIN16 B64_L2_N AB26 1.8V
+PIN17 B64_T3U AC16 1.8V PIN18 B64_L2_P AB25 1.8V
+PIN19 GND - 地 PIN20 GND - 地
+PIN21 B64_L10_N AB22 1.8V PIN22 B64_L1_N AE26 1.8V
+PIN23 B64_L10_P AA22 1.8V PIN24 B64_L1_P AE25 1.8V
+PIN25 B64_L8_N AE23 1.8V PIN26 B64_L3_N AF25 1.8V
+PIN27 B64_L8_P AD23 1.8V PIN28 B64_L3_P AF24 1.8V
+PIN29 GND - 地 PIN30 GND - 地
+PIN31 B64_L7_N AF22 1.8V PIN32 B64_L6_N AC24 1.8V
+PIN33 B64_L7_P AE22 1.8V PIN34 B64_L6_P AB24 1.8V
+PIN35 B64_L9_N AC23 1.8V PIN36 B64_L5_N AD25 1.8V
+PIN37 B64_L9_P AC22 1.8V PIN38 B64_L5_P AD24 1.8V
+PIN39 GND - 地 PIN40 GND - 地
+
+=== PAGE 16 ===
+AXAU15 Datasheet
+16 / 39 www.alinx.com
+16 / 39
+PIN41 B64_L12_N AC21 1.8V PIN42 B64_L11_N AE21 1.8V
+PIN43 B64_L12_P AB21 1.8V PIN44 B64_L11_P AD21 1.8V
+PIN45 B64_L14_N AD19 1.8V PIN46 B64_L13_N AE20 1.8V
+PIN47 B64_L14_P AC19 1.8V PIN48 B64_L13_P AD20 1.8V
+PIN49 GND - 地 PIN50 GND - 地
+PIN51 B64_L19_N Y21 1.8V PIN52 B64_L21_N AB20 1.8V
+PIN53 B64_L19_P Y20 1.8V PIN54 B64_L21_P AA20 1.8V
+PIN55 B64_L20_N AB19 1.8V PIN56 B64_L24_N AA18 1.8V
+PIN57 B64_L20_P AA19 1.8V PIN58 B64_L24_P Y18 1.8V
+PIN59 GND - 地 PIN60 GND - 地
+PIN61 B64_L23_N AA17 1.8V PIN62 B64_L15_N AF19 1.8V
+PIN63 B64_L23_P Y17 1.8V PIN64 B64_L15_P AF18 1.8V
+PIN65 B64_L18_N AE16 1.8V PIN66 B64_L17_N AF17 1.8V
+PIN67 B64_L18_P AD16 1.8V PIN68 B64_L17_P AE17 1.8V
+PIN69 GND - 地 PIN70 GND - 地
+PIN71 FPGA_DONE AB11 1.8V PIN72 B64_L16_N AD18 1.8V
+PIN73 PROGRAM_B AB9 1.8V PIN74 B64_L16_P AC18 1.8V
+PIN75 INIT_B W10 1.8V PIN76 B64_L22_N AC17 1.8V
+PIN77 NC - 空脚 PIN78 B64_L22_P AB17 1.8V
+PIN79 NC - 空脚 PIN80 NC - 空脚
+扩展口 CON2
+80Pin 的连接器 CON2 用来扩展 FPGA 的 BANK65 和 BANK84 以及 4 路 JTAG 信
+号的 IO，其中 BANK84 的电压标准是 3.3V 的，BANK65 的电压标准是 1.8V 的。CON2
+扩展口的管脚分配如表 2-10-2 所示：
+2-10-2 表：扩展口 CON2 引脚分配
+CON2
+管脚
+信号
+名称
+FPGA
+管脚号
+电平
+标准
+CON2
+管脚
+信号
+名称
+FPGA
+管脚号
+电平
+标准
+PIN1 B65_L22_N P23 1.8V PIN2 B65_T2U N26 1.8V
+PIN3 B65_L22_P N23 1.8V PIN4 B65_T1U AA23 1.8V
+PIN5 B65_L18_N R26 1.8V PIN6 B65_T0U W21 1.8V
+PIN7 B65_L18_P R25 1.8V PIN8 B65_T3U T19 1.8V
+
+=== PAGE 17 ===
+AXAU15 Datasheet
+17 / 39 www.alinx.com
+17 / 39
+PIN9 GND - 地 PIN10 GND - 地
+PIN11 B65_L14_N U25 1.8V PIN12 B65_L24_N N22 1.8V
+PIN13 B65_L14_P T25 1.8V PIN14 B65_L24_P N21 1.8V
+PIN15 B65_L17_N P26 1.8V PIN16 B65_L15_N P24 1.8V
+PIN17 B65_L17_P P25 1.8V PIN18 B65_L15_P N24 1.8V
+PIN19 GND - 地 PIN20 GND - 地
+PIN21 B65_L16_N V26 1.8V PIN22 B65_L19_N R23 1.8V
+PIN23 B65_L16_P U26 1.8V PIN24 B65_L19_P R22 1.8V
+PIN25 B65_L10_N W26 1.8V PIN26 B65_L5_N T23 1.8V
+PIN27 B65_L10_P W25 1.8V PIN28 B65_L5_P T22 1.8V
+PIN29 GND - 地 PIN30 GND - 地
+PIN31 B65_L11_N W23 1.8V PIN32 B65_L12_N W24 1.8V
+PIN33 B65_L11_P V23 1.8V PIN34 B65_L12_P V24 1.8V
+PIN35 B65_L2_N U22 1.8V PIN36 B65_L8_N Y26 1.8V
+PIN37 B65_L2_P U21 1.8V PIN38 B65_L8_P Y25 1.8V
+PIN39 GND - 地 PIN40 GND - 地
+PIN41 B65_L23_N P19 1.8V PIN42 B65_L21_N R21 1.8V
+PIN43 B65_L23_P N19 1.8V PIN44 B65_L21_P R20 1.8V
+PIN45 B65_L3_N U20 1.8V PIN46 B65_L4_N V22 1.8V
+PIN47 B65_L3_P T20 1.8V PIN48 B65_L4_P V21 1.8V
+PIN49 GND - 地 PIN50 GND - 地
+PIN51 B65_L20_N P21 1.8V PIN52 B65_L9_N AA25 1.8V
+PIN53 B65_L20_P P20 1.8V PIN54 B65_L9_P AA24 1.8V
+PIN55 B65_L6_N W20 1.8V PIN56 B65_L7_N Y23 1.8V
+PIN57 B65_L6_P W19 1.8V PIN58 B65_L7_P Y22 1.8V
+PIN59 GND - 地 PIN60 GND - 地
+PIN61 B65_L1_N V19 1.8V PIN62 B84_L2_N AF13 3.3V
+PIN63 B65_L1_P U19 1.8V PIN64 B84_L2_P AE13 3.3V
+PIN65 B84_L6_N AB16 3.3V PIN66 B84_L1_N AF15 3.3V
+PIN67 B84_L6_P AB15 3.3V PIN68 B84_L1_P AF14 3.3V
+PIN69 GND - 地 PIN70 GND - 地
+
+=== PAGE 18 ===
+AXAU15 Datasheet
+18 / 39 www.alinx.com
+18 / 39
+PIN71 FPGA_TCK AE12 1.8V PIN72 B84_L3_N AE15 3.3V
+PIN73 FPGA_TDI AB12 1.8V PIN74 B84_L3_P AD15 3.3V
+PIN75 FPGA_TMS AB10 1.8V PIN76 B84_L4_N AD14 3.3V
+PIN77 FPGA_TDO Y10 1.8V PIN78 B84_L4_P AD13 3.3V
+PIN79 NC - 空脚 PIN80 NC - 空脚
+扩展口 CON3
+80Pin 的连接器 CON3 用来扩展 FPGA 的 BANK84，BANK85 和 BANK86 的普通
+IO。BANK84，BANK85 和 BANK86 的电压标准都是 3.3V 的。CON3 扩展口的管脚
+分配如表 2-10-3 所示：
+2-10-3 表：扩展口 CON3 引脚分配
+CON3
+管脚
+信号
+名称
+FPGA
+管脚号
+电平
+标准
+CON3
+管脚
+信号
+名称
+FPGA
+管脚号
+电平
+标准
+PIN1 B84_L8_N AB14 3.3V PIN2 B84_L5_N AC14 3.3V
+PIN3 B84_L8_P AA14 3.3V PIN4 B84_L5_P AC13 3.3V
+PIN5 B84_L12_N W13 3.3V PIN6 B84_L11_N AA13 3.3V
+PIN7 B84_L12_P W12 3.3V PIN8 B84_L11_P Y13 3.3V
+PIN9 GND - 地 PIN10 GND - 地
+PIN11 B84_L7_N AA15 3.3V PIN12 B84_L9_N Y16 3.3V
+PIN13 B84_L7_P Y15 3.3V PIN14 B84_L9_P W16 3.3V
+PIN15 B84_L10_N W15 3.3V PIN16 NC 空脚
+PIN17 B84_L10_P W14 3.3V PIN18 NC 空脚
+PIN19 GND - 地 PIN20 GND - 地
+PIN21 B85_L1_N K9 3.3V PIN22 B85_L3_N H9 3.3V
+PIN23 B85_L1_P K10 3.3V PIN24 B85_L3_P J9 3.3V
+PIN25 B85_L2_N J10 3.3V PIN26 B85_L6_N F9 3.3V
+PIN27 B85_L2_P J11 3.3V PIN28 B85_L6_P F10 3.3V
+PIN29 GND - 地 PIN30 GND - 地
+PIN31 B85_L4_N G11 3.3V PIN32 B85_L5_N G9 3.3V
+PIN33 B85_L4_P H11 3.3V PIN34 B85_L5_P G10 3.3V
+PIN35 B85_L11_N A10 3.3V PIN36 B85_L9_N C9 3.3V
+PIN37 B85_L11_P B10 3.3V PIN38 B85_L9_P D9 3.3V
+
+=== PAGE 19 ===
+AXAU15 Datasheet
+19 / 39 www.alinx.com
+19 / 39
+PIN39 GND - 地 PIN40 GND - 地
+PIN41 B85_L8_N D10 3.3V PIN42 B85_L10_N A9 3.3V
+PIN43 B85_L8_P D11 3.3V PIN44 B85_L10_P B9 3.3V
+PIN45 B85_L7_N E10 3.3V PIN46 B85_L12_N B11 3.3V
+PIN47 B85_L7_P E11 3.3V PIN48 B85_L12_P C11 3.3V
+PIN49 GND - 地 PIN50 GND - 地
+PIN51 B86_L2_N H13 3.3V PIN52 B86_L1_N H12 3.3V
+PIN53 B86_L2_P J13 3.3V PIN54 B86_L1_P J12 3.3V
+PIN55 B86_L4_N J14 3.3V PIN56 B86_L5_N F12 3.3V
+PIN57 B86_L4_P J15 3.3V PIN58 B86_L5_P G12 3.3V
+PIN59 GND - 地 PIN60 GND - 地
+PIN61 B86_L9_N C13 3.3V PIN62 B86_L3_N G14 3.3V
+PIN63 B86_L9_P C14 3.3V PIN64 B86_L3_P H14 3.3V
+PIN65 B86_L8_N D13 3.3V PIN66 B86_L7_N E12 3.3V
+PIN67 B86_L8_P D14 3.3V PIN68 B86_L7_P E13 3.3V
+PIN69 GND - 地 PIN70 GND - 地
+PIN71 B86_L11_N A12 3.3V PIN72 B86_L10_N B12 3.3V
+PIN73 B86_L11_P A13 3.3V PIN74 B86_L10_P C12 3.3V
+PIN75 B86_L6_N F13 3.3V PIN76 B86_L12_N A14 3.3V
+PIN77 B86_L6_P F14 3.3V PIN78 B86_L12_P B14 3.3V
+PIN79 NC - 空脚 PIN80 NC - 空脚
+扩展口 CON4
+80Pin 的连接器 CON4 用来扩展 FPGA 的 BANK224，BANK225 和 BANK226 的
+收发器接口。CON4 扩展口的管脚分配如表 2-10-4 所示：
+2-10-4 表：扩展口 CON4 引脚分配
+CON3
+管脚
+信号
+名称
+FPGA
+管脚号
+电平
+标准
+CON3
+管脚
+信号
+名称
+FPGA
+管脚号
+电平
+标准
+PIN1 224_TX0_N AF6 1.2V PIN2 224_RX0_N AF1 1.2V
+PIN3 224_TX0_P AF7 1.2V PIN4 224_RX0_P AF2 1.2V
+PIN5 GND - 地 PIN6 GND - 地
+PIN7 224_TX1_N AE8 1.2V PIN8 224_RX1_N AE3 1.2V
+
+=== PAGE 20 ===
+AXAU15 Datasheet
+20 / 39 www.alinx.com
+20 / 39
+PIN9 224_TX1_P AE9 1.2V PIN10 224_RX1_P AE4 1.2V
+PIN11 GND - 地 PIN12 GND - 地
+PIN13 224_TX2_N AD6 1.2V PIN14 224_RX2_N AD1 1.2V
+PIN15 224_TX2_P AD7 1.2V PIN16 224_RX2_P AD2 1.2V
+PIN17 GND - 地 PIN18 GND - 地
+PIN19 224_TX3_N AC4 1.2V PIN20 224_RX3_N AB1 1.2V
+PIN21 224_TX3_P AC5 1.2V PIN22 224_RX3_P AB2 1.2V
+PIN23 GND - 地 PIN24 GND - 地
+PIN25 225_CLK0_N V6 1.2V PIN26 224_CLK0_N AB6 1.2V
+PIN27 225_CLK0_P V7 1.2V PIN28 224_CLK0_P AB7 1.2V
+PIN29 GND - 地 PIN30 GND - 地
+PIN31 225_TX0_N AA4 1.2V PIN32 225_RX0_N Y1 1.2V
+PIN33 225_TX0_P AA5 1.2V PIN34 225_RX0_P Y2 1.2V
+PIN35 GND - 地 PIN36 GND - 地
+PIN37 225_TX1_N W4 1.2V PIN38 225_RX1_N V1 1.2V
+PIN39 225_TX1_P W5 1.2V PIN40 225_RX1_P V2 1.2V
+PIN41 GND - 地 PIN42 GND - 地
+PIN43 225_TX2_N U4 1.2V PIN44 225_RX2_N T1 1.2V
+PIN45 225_TX2_P U5 1.2V PIN46 225_RX2_P T2 1.2V
+PIN47 GND - 地 PIN48 GND - 地
+PIN49 225_TX3_N R4 1.2V PIN50 225_RX3_N P1 1.2V
+PIN51 225_TX3_P R5 1.2V PIN52 225_RX3_P P2 1.2V
+PIN53 GND - 地 PIN54 GND - 地
+PIN55 226_TX0_N N4 1.2V PIN56 226_RX0_N M1 1.2V
+PIN57 226_TX0_P N5 1.2V PIN58 226_RX0_P M2 1.2V
+PIN59 GND - 地 PIN60 GND - 地
+PIN61 226_TX1_N L4 1.2V PIN62 226_RX1_N K1 1.2V
+PIN63 226_TX1_P L5 1.2V PIN64 226_RX1_P K2 1.2V
+PIN65 GND - 地 PIN66 GND - 地
+PIN67 226_TX2_N J4 1.2V PIN68 226_RX2_N H1 1.2V
+PIN69 226_TX2_P J5 1.2V PIN70 226_RX2_P H2 1.2V
+
+=== PAGE 21 ===
+AXAU15 Datasheet
+21 / 39 www.alinx.com
+21 / 39
+PIN71 GND - 地 PIN72 GND - 地
+PIN73 226_TX3_N G4 1.2V PIN74 226_RX3_N F1 1.2V
+PIN75 226_TX3_P G5 1.2V PIN76 226_RX3_P F2 1.2V
+PIN77 GND - 地 PIN78 GND - 地
+PIN79 226_CLK0_P P7 1.2V PIN80 226_CLK0_N P6 1.2V
+(九) 结构图
+正面图（TOP View）
+三、 扩展板
+(一) 简介
+通过前面的功能简介，我们可以了解到扩展板部分的功能
+
+=== PAGE 22 ===
+AXAU15 Datasheet
+22 / 39 www.alinx.com
+22 / 39
+1 路千兆以太网 RJ-45 接口
+PCIe x4 接口
+1 路 FMC 拓展口
+1 路 USB Uart 调试接口
+1 路 Micro SD 卡座
+1 路 EEPROM
+JTAG 调试口
+2 路 40 针扩展口
+2 个独立按键
+2 个用户 LED 灯
+(二) 千兆以太网接口
+AXAU15 开发板上通过景略半导体的工业级以太网 GPHY 芯片（JL2121-N040I）
+为用户提供网络通信服务。JL2121 芯片支持 10/100/1000 Mbps 网络传输速率，通过
+RGMII 接口跟 FPGA 的 MAC 层进行数据通信。JL2121D 支持ＭDI/MDX 自适应，各
+种速度自适应，Master/Slave 自适应，支持 MDIO 总线进行 PHY 的寄存器管理。
+JL2121 上电会检测一些特定的 IO 的电平状态，从而确定自己的工作模式。表 3-2-1
+描述了 GPHY 芯片上电之后的默认设定信息。
+配置 Pin 脚 说明 配置值
+RXD3_ADR0
+RXC_ADR1
+RXCTL_ADR2
+MDIO/MDC 模式的 PHY 地址 PHY Address 为 001
+RXD1_TXDLY TX 时钟 2ns 延时 延时
+RXD0_RXDLY RX 时钟 2ns 延时 延时
+表 3-2-1 PHY 芯片默认配置值
+当网络连接到千兆以太网时，FPGA 和 PHY 芯片 JL2121 的数据传输时通过 RGMII
+总线通信，传输时钟为 125Mhz，数据在时钟的上升沿和下降样采样。
+当网络连接到百兆以太网时，FPGA 和 PHY 芯片 JL2121 的数据传输时通过 RMII
+总线通信，传输时钟为 25Mhz。数据在时钟的上升沿和下降样采样。
+千兆以太网的设计示意图如图 3-2-1 所示:
+
+=== PAGE 23 ===
+AXAU15 Datasheet
+23 / 39 www.alinx.com
+23 / 39
+图 3-2-1 千兆以太网接口设计示意图
+以太网 FPGA 引脚分配如下：
+信号名称 FPGA 引脚名 FPGA 引脚号 备注
+PHY_RESET B64_T0U AF23 PHY 芯片复位
+PHY_MDC B64_T1U AF20 MDIO 管理时钟
+PHY_MDIO B64_T2U AE18 MDIO 管理数据
+PHY_RXC B64_L11_P AD21 RGMII 接收时钟
+PHY_RXDV B64_L11_N AE21 接收数据有效信号
+PHY_RXD0 B64_L9_P AC22 接收数据 Bit0
+PHY_RXD1 B64_L9_N AC23 接收数据 Bit1
+PHY_RXD2 B64_L8_P AD23 接收数据 Bit2
+PHY_RXD3 B64_L8_N AE23 接收数据 Bit3
+PHY_GTXC B64_L18_N AE16 RGMII 发送时钟
+PHY_TXEN B64_L18_P AD16 发送使能信号
+PHY_TXD0 B64_L24_P Y18 发送数据 bit0
+PHY_TXD1 B64_L24_N AA18 发送数据 bit1
+PHY_TXD2 B64_L6_P AB24 发送数据 bit2
+PHY_TXD3 B64_L6_N AC24 发送数据 bit3
+(三) PCIe4.0 X4 接口
+AXAU15 扩展板上提供一个工业级高速数据传输 PCIe4.0 x4 接口，PCIE 卡的外形
+
+=== PAGE 24 ===
+AXAU15 Datasheet
+24 / 39 www.alinx.com
+24 / 39
+尺寸符合标准 PCIe 卡电气规范要求，可直接在普通 PC 的 x4 PCIe 插槽上使用。
+PCIe 接口的收发信号直接跟 FPGA 的 GTP 收发器相连接，四通道的 TX 信号和 RX
+信号都是以差分信号方式连接到 FPGA，单通道通信速率可高达 16G bit 带宽。PCIe
+的参考时钟由 PC 的 PCIe 插槽提供给开发板，参考时钟频率为 100Mhz。
+开发板的 PCIe 接口的设计示意图如下图 3-3-1 所示,其中 TX 发送信号和参考时钟
+CLK 信号用 AC 耦合模式连接。
+图 3-3-1 PCIe x4 设计示意图
+PCIe x4 接口 FPGA 引脚分配如下：
+网络名称 FPGA 引脚 备注
+PCIE_RX0_P AB2 PCIE 通道 0 数据接收 Positive
+PCIE_RX0_N AB1 PCIE 通道 0 数据接收 Negative
+PCIE_RX1_P AD2 PCIE 通道 1 数据接收 Positive
+PCIE_RX1_N AD1 PCIE 通道 1 数据接收 Negative
+PCIE_RX2_P AE4 PCIE 通道 2 数据接收 Positive
+PCIE_RX2_N AE3 PCIE 通道 2 数据接收 Negative
+PCIE_RX3_P AF2 PCIE 通道 3 数据接收 Positive
+PCIE_RX3_N AF1 PCIE 通道 3 数据接收 Negative
+PCIE_TX0_P AC5 PCIE 通道 0 数据发送 Positive
+
+=== PAGE 25 ===
+AXAU15 Datasheet
+25 / 39 www.alinx.com
+25 / 39
+PCIE_TX0_N AC4 PCIE 通道 0 数据发送 Negative
+PCIE_TX1_P AD7 PCIE 通道 1 数据发送 Positive
+PCIE_TX1_N AD6 PCIE 通道 1 数据发送 Negative
+PCIE_TX2_P AE9 PCIE 通道 2 数据发送 Positive
+PCIE_TX2_N AE8 PCIE 通道 2 数据发送 Negative
+PCIE_TX3_P AF7 PCIE 通道 3 数据发送 Positive
+PCIE_TX3_N AF6 PCIE 通道 3 数据发送 Negative
+PCIE_CLK_P AB7 PCIE 的参考时钟 Positive
+PCIE_CLK_N AB6 PCIE 的参考时钟 Negative
+PCIE_PERST T19 PCIE 复位信号
+(四) FMC 连接器
+AXAU15 扩展板带有一个标准的 FMC HPC 的扩展口，可以外接 XILINX 或者我们
+黑金的各种 FMC 模块（HDMI 输入输出模块，双目摄像头模块，高速 AD 模块等等）。
+FMC 扩展口的 37 对差分信号连接到 Artix UltraScale+ FPGA 芯片的 BANK64,65
+的 IO 上，电平标准为 1.8V，差分信号支持 LVDS 数据通信。8 对 GTX 收发器信号连接
+到 BANK225,226。
+FMC 连接器引脚分配
+信号名称 FPGA 引脚名 FPGA 引脚
+号
+备注
+FMC_SCL B65_L16_N V26 FMC的I2C通信时钟
+FMC_SDA B65_L16_P U26 FMC的I2C通信数据
+FMC_CLK0_N B65_L14_N U25 LA参考第1路参考时钟负
+FMC_CLK0_P B65_L14_P T25 LA参考第1路参考时钟正
+FMC_CLK1_P B64_L12_P AB21 LA参考第2路参考时钟负
+FMC_CLK1_N B64_L12_N AC21 LA参考第2路参考时钟正
+FMC_LA00_CC_N B65_L11_N W23 LA参考第0路数据（时钟）负
+FMC_LA00_CC_P B65_L11_P V23 LA参考第0路数据（时钟）正
+FMC_LA01_CC_N B65_L12_N W24 LA参考第1路数据（时钟）负
+FMC_LA01_CC_P B65_L12_P V24 LA参考第1路数据（时钟）正
+
+=== PAGE 26 ===
+AXAU15 Datasheet
+26 / 39 www.alinx.com
+26 / 39
+FMC_LA02_N B65_L15_N P24 LA参考第2路数据负
+FMC_LA02_P B65_L15_P N24 LA参考第2路数据正
+FMC_LA03_N B65_L24_N N22 LA参考第3路数据负
+FMC_LA03_P B65_L24_P N21 LA参考第3路数据正
+FMC_LA04_N B65_L18_N R26 LA参考第4路数据负
+FMC_LA04_P B65_L18_P R25 LA参考第4路数据正
+FMC_LA05_N B65_L17_N P26 LA参考第5路数据负
+FMC_LA05_P B65_L17_P P25 LA参考第5路数据正
+FMC_LA06_N B65_L22_N P23 LA参考第6路数据负
+FMC_LA06_P B65_L22_P N23 LA参考第6路数据正
+FMC_LA07_N B65_L20_N P21 LA参考第7路数据负
+FMC_LA07_P B65_L20_P P20 LA参考第7路数据正
+FMC_LA08_N B65_L21_N R21 LA参考第8路数据负
+FMC_LA08_P B65_L21_P R20 LA参考第8路数据正
+FMC_LA09_N B65_L23_N P19 LA参考第9路数据负
+FMC_LA09_P B65_L23_P N19 LA参考第9路数据正
+FMC_LA10_N B65_L10_N W26 LA参考第10路数据负
+FMC_LA10_P B65_L10_P W25 LA参考第10路数据正
+FMC_LA11_N B65_L5_N T23 LA参考第11路数据负
+FMC_LA11_P B65_L5_P T22 LA参考第11路数据正
+FMC_LA12_N B65_L19_N R23 LA参考第12路数据负
+FMC_LA12_P B65_L19_P R22 LA参考第12路数据正
+FMC_LA13_N B65_L3_N U20 LA参考第13路数据负
+FMC_LA13_P B65_L3_P T20 LA参考第13路数据正
+FMC_LA14_N B65_L1_N V19 LA参考第14路数据负
+FMC_LA14_P B65_L1_P U19 LA参考第14路数据正
+FMC_LA15_N B65_L4_N V22 LA参考第15路数据负
+FMC_LA15_P B65_L4_P V21 LA参考第15路数据正
+FMC_LA16_N B65_L2_N U22 LA参考第16路数据负
+FMC_LA16_P B65_L2_P U21 LA参考第16路数据正
+FMC_LA17_CC_N B64_L14_N AD19 LA参考第17路数据（时钟）负
+
+=== PAGE 27 ===
+AXAU15 Datasheet
+27 / 39 www.alinx.com
+27 / 39
+FMC_LA17_CC_P B64_L14_P AC19 LA参考第17路数据（时钟）正
+FMC_LA18_CC_N B64_L13_N AE20 LA参考第18路数据（时钟）负
+FMC_LA18_CC_P B64_L13_P AD20 LA参考第18路数据（时钟）正
+FMC_LA19_N B64_L7_N AF22 LA参考第19路数据负
+FMC_LA19_P B64_L7_P AE22 LA参考第19路数据正
+FMC_LA20_N B64_L17_N AF17 LA参考第20路数据负
+FMC_LA20_P B64_L17_P AE17 LA参考第20路数据正
+FMC_LA21_N B64_L23_N AA17 LA参考第21路数据负
+FMC_LA21_P B64_L23_P Y17 LA参考第21路数据正
+FMC_LA22_N B64_L22_N AC17 LA参考第22路数据负
+FMC_LA22_P B64_L22_P AB17 LA参考第22路数据正
+FMC_LA23_N B64_L21_N AB20 LA参考第23路数据负
+FMC_LA23_P B64_L21_P AA20 LA参考第23路数据正
+FMC_LA24_N B64_L16_N AD18 LA参考第24路数据负
+FMC_LA24_P B64_L16_P AC18 LA参考第24路数据正
+FMC_LA25_N B64_L10_N AB22 LA参考第25路数据负
+FMC_LA25_P B64_L10_P AA22 LA参考第25路数据正
+FMC_LA26_N B64_L19_N Y21 LA参考第26路数据负
+FMC_LA26_P B64_L19_P Y20 LA参考第26路数据正
+FMC_LA27_N B64_L20_N AB19 LA参考第27路数据负
+FMC_LA27_P B64_L20_P AA19 LA参考第27路数据正
+FMC_LA28_N B64_L15_N AF19 LA参考第28路数据负
+FMC_LA28_P B64_L15_P AF18 LA参考第28路数据正
+FMC_LA29_N B64_L1_N AE26 LA参考第29路数据负
+FMC_LA29_P B64_L1_P AE25 LA参考第29路数据正
+FMC_LA30_N B64_L3_N AF25 LA参考第30路数据负
+FMC_LA30_P B64_L3_P AF24 LA参考第30路数据正
+FMC_LA31_N B64_L5_N AD25 LA参考第31路数据负
+FMC_LA31_P B64_L5_P AD24 LA参考第31路数据正
+FMC_LA32_N B64_L4_N AD26 LA参考第32路数据负
+FMC_LA32_P B64_L4_P AC26 LA参考第32路数据正
+
+=== PAGE 28 ===
+AXAU15 Datasheet
+28 / 39 www.alinx.com
+28 / 39
+FMC_LA33_N B64_L2_N AB26 LA参考第33路数据负
+FMC_LA33_P B64_L2_P AB25 LA参考第33路数据正
+FMC_PRSNT B65_L8_N Y26 FMC模块存在信号
+FMC_GBTCLK0_M2C_N 225_CLK0_N V6 FMC收发器参考时钟输入0负
+FMC_GBTCLK0_M2C_P 225_CLK0_P V7 FMC收发器参考时钟输入0正
+FMC_DP0_C2M_N 225_TX0_N AA4 FMC收发器数据发送0负
+FMC_DP0_C2M_P 225_TX0_P AA5 FMC收发器数据发送0正
+FMC_DP0_M2C_N 225_RX0_N Y1 FMC收发器数据接收0负
+FMC_DP0_M2C_P 225_RX0_P Y2 FMC收发器数据接收0正
+FMC_DP1_C2M_N 225_TX1_N W4 FMC收发器数据发送1负
+FMC_DP1_C2M_P 225_TX1_P W5 FMC收发器数据发送1正
+FMC_DP1_M2C_N 225_RX1_N V1 FMC收发器数据接收1负
+FMC_DP1_M2C_P 225_RX1_P V2 FMC收发器数据接收1正
+FMC_DP2_C2M_N 225_TX2_N U4 FMC收发器数据发送2负
+FMC_DP2_C2M_P 225_TX2_P U5 FMC收发器数据发送2正
+FMC_DP2_M2C_N 225_RX2_N T1 FMC收发器数据接收2负
+FMC_DP2_M2C_P 225_RX2_P T2 FMC收发器数据接收2正
+FMC_DP3_C2M_N 225_TX3_N R4 FMC收发器数据发送3负
+FMC_DP3_C2M_P 225_TX3_P R5 FMC收发器数据发送3正
+FMC_DP3_M2C_N 225_RX3_N P1 FMC收发器数据接收3负
+FMC_DP3_M2C_P 225_RX3_P P2 FMC收发器数据接收3正
+FMC_DP4_C2M_N 226_TX0_N N4 FMC收发器数据发送4负
+FMC_DP4_C2M_P 226_TX0_P N5 FMC收发器数据发送4正
+FMC_DP4_M2C_N 226_RX0_N M1 FMC收发器数据接收4负
+FMC_DP4_M2C_P 226_RX0_P M2 FMC收发器数据接收4正
+FMC_DP5_C2M_N 226_TX1_N L4 FMC收发器数据发送5负
+FMC_DP5_C2M_P 226_TX1_P L5 FMC收发器数据发送5正
+FMC_DP5_M2C_N 226_RX1_N K1 FMC收发器数据接收5负
+FMC_DP5_M2C_P 226_RX1_P K2 FMC收发器数据接收5正
+FMC_DP6_C2M_N 226_TX2_N J4 FMC收发器数据发送6负
+FMC_DP6_C2M_P 226_TX2_P J5 FMC收发器数据发送6正
+
+=== PAGE 29 ===
+AXAU15 Datasheet
+29 / 39 www.alinx.com
+29 / 39
+FMC_DP6_M2C_N 226_RX2_N H1 FMC收发器数据接收6负
+FMC_DP6_M2C_P 226_RX2_P H2 FMC收发器数据接收6正
+FMC_DP7_C2M_N 226_TX3_N G4 FMC收发器数据发送7负
+FMC_DP7_C2M_P 226_TX3_P G5 FMC收发器数据发送7正
+FMC_DP7_M2C_N 226_RX3_N F1 FMC收发器数据接收7负
+FMC_DP7_M2C_P 226_RX3_P F2 FMC收发器数据接收7正
+FMC_GBTCLK1_M2C_P 226_CLK0_P P7 FMC收发器参考时钟输入1正
+FMC_GBTCLK1_M2C_N 226_CLK0_N P6 FMC收发器参考时钟输入1负
+(五) USB 转串口
+开发板包含了 Silicon Labs CP2102GM 的 USB-UAR 芯片, USB 接口采用 MINI
+USB 接口，可以用一根 USB 线将它连接到上 PC 的 USB 口进行串口数据通信 。
+USB Uart 电路设计的示意图如图 3-5-1 所示
+图 3-5-1 USB 转串口示意图
+UART 转串口的 FPGA 引脚分配：
+信号名称 FPGA 引脚名 FPGA 引脚号 备注
+UART1_RXD B86_L11_N A12 Uart 数据输入
+UART1_TXD B86_L11_P A13 Uart 数据输出
+(六) TF 卡槽
+TF 卡是现在非常常用的存储设备，我们扩展出来的 TF 卡，支持 SPI 模式和 SD 模
+式。原理图如下图 3-6-1 所示。
+
+=== PAGE 30 ===
+AXAU15 Datasheet
+30 / 39 www.alinx.com
+30 / 39
+图 3-6-1 TF 卡槽原理图
+SD 卡槽引脚分配
+信号名称 FPGA 引脚名 FPGA 引脚号 备注
+SD_CD B65_L8_P Y25 SD卡插入信号
+SD_CLK B65_L9_N AA25 SD时钟信号
+SD_CMD B65_L9_P AA24 SD命令信号
+SD_D0 B65_L7_P Y22 SD数据Data0
+SD_D1 B65_L7_N Y23 SD数据Data1
+SD_D2 B65_L6_N W20 SD数据Data2
+SD_D3 B65_L6_P W19 SD数据Data3
+(七) EEPROM 24LC04
+AXAU15 开 发 板 板 载 了 一 片 EEPROM ， 型 号 为 24LC04, 容 量 为 ： 4Kbit
+（2*256*8bit），由 2 个 256byte 的 block 组成,通过 IIC 总线进行通信。板载 EEPROM
+就是为了学习 IIC 总线的通信方式。EEPROM 的 I2C 信号连接的 FPGA 端的 BANK14 IO
+口上。下图 3-7-1 为 EEPROM 的设计示意图
+
+=== PAGE 31 ===
+AXAU15 Datasheet
+31 / 39 www.alinx.com
+31 / 39
+图 3-7-1 EEPROM 原理图部分
+EEPROM 引脚分配：
+引脚名称 FPGA 引脚名 FPGA 引脚
+EEPROM_I2C_SCL B86_L12_N A14
+EEPROM_I2C_SDA B86_L12_P B14
+(八) JTAG 接口
+开发板预留了一个 JTAG 接口，用于下载 FPGA 程序或者固化程序到 FLASH。为了
+带电插拔造成对 FPGA 芯片的损坏，我们在 JTAG 信号上添加了保护二极管来保证信号
+的电压在 FPGA 接受的范围，避免 FPGA 的损坏。
+图 3-8-1 JTAG 接口原理图
+
+=== PAGE 32 ===
+AXAU15 Datasheet
+32 / 39 www.alinx.com
+32 / 39
+JTAG 线插拔的时候注意不要热插拔。
+(九) 拓展口
+扩展板预留 2 个 2.54mm 标准间距的 40 针的扩展口 J33 和 J34，用于连接黑金的
+各个模块或者用户自己设计的外面电路，扩展口有 40 个信号，其中，5V 电源 1 路，
+3.3V 电源 2 路，地 3 路，IO 口 34 路。IO 的电平标准为 3.3V，切勿 IO 直接跟 5V 设
+备直接连接，以免烧坏 FPGA。如果要接 5V 设备，需要接电平转换芯片。
+扩展口(J33)的电路如下图 3-9-1 所示
+图 3-9-1 扩展口 J33 原理图
+J33 扩展口 FPGA 的引脚分配
+J33 引脚编号 FPGA 引脚名 FPGA 引脚号 电平标准
+J33_1 - - 地
+J33_2 - - 电源5V
+J33_3 B86_L4_P J15 IO 3.3V
+J33_4 B86_L4_N J14 IO 3.3V
+J33_5 B86_L2_P J13 IO 3.3V
+J33_6 B86_L2_N H13 IO 3.3V
+J33_7 B85_L7_P E11 IO 3.3V
+J33_8 B85_L7_N E10 IO 3.3V
+J33_9 B85_L8_P D11 IO 3.3V
+
+=== PAGE 33 ===
+AXAU15 Datasheet
+33 / 39 www.alinx.com
+33 / 39
+J33_10 B85_L8_N D10 IO 3.3V
+J33_11 B85_L11_P B10 IO 3.3V
+J33_12 B85_L11_N A10 IO 3.3V
+J33_13 B85_L4_P H11 IO 3.3V
+J33_14 B85_L4_N G11 IO 3.3V
+J33_15 B85_L2_P J11 IO 3.3V
+J33_16 B85_L2_N J10 IO 3.3V
+J33_17 B85_L1_P K10 IO 3.3V
+J33_18 B85_L1_N K9 IO 3.3V
+J33_19 B84_L2_N AF13 IO 3.3V
+J33_20 B84_L2_P AE13 IO 3.3V
+J33_21 B84_L1_N AF15 IO 3.3V
+J33_22 B84_L1_P AF14 IO 3.3V
+J33_23 B84_L3_N AE15 IO 3.3V
+J33_24 B84_L3_P AD15 IO 3.3V
+J33_25 B84_L4_N AD14 IO 3.3V
+J33_26 B84_L4_P AD13 IO 3.3V
+J33_27 B84_L6_N AB16 IO 3.3V
+J33_28 B84_L6_P AB15 IO 3.3V
+J33_29 B84_L10_P W14 IO 3.3V
+J33_30 B84_L10_N W15 IO 3.3V
+J33_31 B84_L7_P Y15 IO 3.3V
+J33_32 B84_L7_N AA15 IO 3.3V
+J33_33 B84_L12_P W12 IO 3.3V
+J33_34 B84_L12_N W13 IO 3.3V
+J33_35 B84_L8_P AA14 IO 3.3V
+J33_36 B84_L8_N AB14 IO 3.3V
+J33_37 - - 地
+J33_38 - - 地
+J33_39 - - 电源3.3V
+J33_40 - - 电源3.3V
+
+=== PAGE 34 ===
+AXAU15 Datasheet
+34 / 39 www.alinx.com
+34 / 39
+扩展口(J34)的电路如下图 3-9-3 所示
+图 3-9-2 扩展口 J34 原理图
+J34 扩展口 FPGA 的引脚分配
+J34 引脚编号 FPGA 引脚名 FPGA 引脚号 电平标准
+J34_1 - - 地
+J34_2 - - 电源5V
+J34_3 B84_L5_N AC14 IO 3.3V
+J34_4 B84_L5_P AC13 IO 3.3V
+J34_5 B84_L11_N AA13 IO 3.3V
+J34_6 B84_L11_P Y13 IO 3.3V
+J34_7 B84_L9_N Y16 IO 3.3V
+J34_8 B84_L9_P W16 IO 3.3V
+J34_9 B85_L3_N H9 IO 3.3V
+J34_10 B85_L3_P J9 IO 3.3V
+J34_11 B85_L6_N F9 IO 3.3V
+J34_12 B85_L6_P F10 IO 3.3V
+J34_13 B85_L5_N G9 IO 3.3V
+J34_14 B85_L5_P G10 IO 3.3V
+J34_15 B85_L9_N C9 IO 3.3V
+
+=== PAGE 35 ===
+AXAU15 Datasheet
+35 / 39 www.alinx.com
+35 / 39
+J34_16 B85_L9_P D9 IO 3.3V
+J34_17 B85_L10_N A9 IO 3.3V
+J34_18 B85_L10_P B9 IO 3.3V
+J34_19 B85_L12_N B11 IO 3.3V
+J34_20 B85_L12_P C11 IO 3.3V
+J34_21 B86_L1_N H12 IO 3.3V
+J34_22 B86_L1_P J12 IO 3.3V
+J34_23 B86_L5_N F12 IO 3.3V
+J34_24 B86_L5_P G12 IO 3.3V
+J34_25 B86_L3_N G14 IO 3.3V
+J34_26 B86_L3_P H14 IO 3.3V
+J34_27 B86_L7_N E12 IO 3.3V
+J34_28 B86_L7_P E13 IO 3.3V
+J34_29 B86_L10_N B12 IO 3.3V
+J34_30 B86_L10_P C12 IO 3.3V
+J34_31 B86_L6_N F13 IO 3.3V
+J34_32 B86_L6_P F14 IO 3.3V
+J34_33 B86_L8_P D14 IO 3.3V
+J34_34 B86_L8_N D13 IO 3.3V
+J34_35 B86_L9_P C14 IO 3.3V
+J34_36 B86_L9_N C13 IO 3.3V
+J34_37 - - 地
+J34_38 - - 地
+J34_39 - - 电源3.3V
+J34_40 - - 电源3.3V
+(十) 按键
+扩展板上含有 2 个用户按键 KEY1~KEY2，两个按键都连接到 FPGA 的普通的 IO
+上，按键低电平有效，当按键按下，FPGA 的 IO 输入电压为低，当没有按键按下时，
+FPGA 的 IO 输入电压为高。按键部分电路如下图 3-10-1 所示
+
+=== PAGE 36 ===
+AXAU15 Datasheet
+36 / 39 www.alinx.com
+36 / 39
+图 3-10-1 按键硬件设计示意图
+按键 FPGA 引脚分配：
+信号名称 FPGA 引脚名 FPGA 引脚号 备注
+KEY1 B65_T2U N26 用户按键1
+KEY2 B65_T1U AA23 用户按键2
+(十一) LED 灯
+扩展板上有 6 个红色 LED 灯，其中 1 个是电源指示灯(PWR)，2 个是 USB Uart
+的数据接收和发送指示灯，2 个是用户 LED 灯（LED1~LED2），还有一个配置 LED 灯
+(DONE)。当开发板供电后，电源指示灯会亮起。用户 LED1~LED2 连接到 FPGA 的普
+通 IO，当连接用户 LED 灯的 IO 电压配置为高电平时，用户 LED 灯点亮，当连接 IO 电
+压为配置为低电平时，用户 LED 会被熄灭。当 FPGA 配置成功后 DONE 灯熄灭。
+LED 灯硬件连接的原理图如图 3-11-1 所示
+
+=== PAGE 37 ===
+AXAU15 Datasheet
+37 / 39 www.alinx.com
+37 / 39
+图 3-11-1 LED 灯硬件设计原理图
+LED FPGA 引脚分配：
+信号名称 FPGA 引脚名 FPGA 引脚号 备注
+LED1 B65_T0U W21 用户定义指示灯
+LED2 B64_T3U AC16 用户定义指示灯
+(十二) 供电电源
+开发板的电源输入电压为 DC12V，请使用开发板自带的电源,不要用其他规格的电
+源，以免损坏开发板。扩展板上通过 4 路 DC/DC 电源芯片 ETA1471FT2G 转化成+5V，
++3.3V，+1.8V 和 VADJ 四路电源。另外扩展板上的+12V 电源通过板间连接器给核心
+板供电，扩展上的电源设计如下图 3-12-1 所示
+
+=== PAGE 38 ===
+AXAU15 Datasheet
+38 / 39 www.alinx.com
+38 / 39
+图 3-12-1 扩展板电源原理图
+其中 VADJ 电源可以使用跳帽更改电源电压为 1.2V，给 FMC 模块单独供电。
+
+=== PAGE 39 ===
+AXAU15 Datasheet
+39 / 39 www.alinx.com
+39 / 39
+(十三) 结构尺寸图
+正面图（Top View）

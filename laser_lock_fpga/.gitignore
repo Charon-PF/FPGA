@@ -1,0 +1,40 @@
+# Vivado FPGA: keep design sources; ignore reproducible generated files.
+.Xil/
+*.cache/
+*.runs/
+*.sim/
+*.gen/
+*.hw/
+*.ip_user_files/
+
+# Large or generated output / archives
+*.zip
+*.7z
+*.rar
+*.tar
+*.gz
+*.iso
+*.log
+*.jou
+*.wdb
+*.vcd
+*.vpd
+*.fst
+*.bit
+*.mcs
+*.rpt
+*.str
+*.pb
+*.tmp
+*.swp
+
+# Credentials and local machine state
+.env
+.env.*
+*.pem
+*.pfx
+id_rsa
+id_ed25519
+__pycache__/
+.venv/
+node_modules/

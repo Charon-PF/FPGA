@@ -1,0 +1,35 @@
+PASS: hardware-integration delivery, 2026-10-14
+Existing project: C:\Users\V587\Documents\ChatGPT\laser_lock_fpga\laser_lock_fpga.xpr
+Original project ID: b554849d7252411794d3ad94fe6d0156
+Vivado2024.1 / xcau15p-ffvb676-2-i / hardware top laser_lock_hw_top
+Algorithm preservation:12 original RTL files byte-identical. Only original clock_manager.v adds optional hardware input BUFG; frequencies/reset equations unchanged.
+Pin map:78 unique AXAU15 physical ports, LVDS/LVCMOS18 constraints, original placeholder disabled.
+ADC:14-pair parallel-interleaved250MSPS LVDS; MMCM capture+375ps; sample selection/256; coherent mailbox to100MHz core.
+DAC:16-pair250MHz I/Q word LVDS; signed I=existing servo command,Q=0; DCI+625ps; three bypassed interpolation stages.
+Peripheral initialization:86write-only SPI transactions;50MHz REF1 assumed.
+NKT E15 actuator mapping remains abstract; no laser protocol or voltage-per-code mapping added.
+Current source interface regressions:
+  hw_ad9643_result.txt: PASS: real UNISIM AD9643 Parallel Interleaved LVDS + CDC
+  hw_ad9122_result.txt: PASS
+  hw_startup_result.txt: PASS
+  hw_clock_health_result.txt: PASS: clock-health domain-qualified reset and original rate equations
+  hw_wrapper_result.txt: PASS
+Current implementation:
+Vivado: 2024.1
+Part: xcau15p-ffvb676-2-i
+Synthesis: synth_design Complete!
+Implementation: write_bitstream Complete!
+Worst setup slack (ns): 0.033
+Worst hold slack (ns): 0.011
+ILA: enabled, 6 probes, 1024 samples.
+Project top: laser_lock_hw_top. Debug buses are internal.
+E15 internal servo: signed lock calibration, optical slope polarity, 100 kHz default scheduler, scaled actuator anti-windup.
+78 AXAU15 physical ports assigned. Bitstream generated. External I/O envelope PROVISIONAL; card level translation and actual board skew pending.
+Independent DAC paired-edge audit: setup+.109ns / hold+.127ns across34DATA/FRAMEports, latest post-route-physopt checkpoint.
+No unconstrained internal endpoints; no unclocked registers; no routing errors; bitstream DRC0errors. Warnings are retained, including unsupported multi-logic bus-skew topology; see hardware_cdc_review.txt for held-transaction/max-delay protection and remaining CDC classifications.
+Bitstream bytes: 2506247
+Bitstream SHA256: 70f86b02b48a27c1b0dc12e45196f6644480612195bed77481a489c2748189a5
+LTX SHA256: 486817c9c69c968d0dcb42f715859eb881522d97baa4de7111f708b2a5b1d26a
+Physical limits: no board was programmed and no laser was driven. FMC mapping inherits the prior local board project; card schematic/revision has not independently confirmed routing/level conversion. AD9516 SPI1.8V compatibility and actual50MHz reference require confirmation. External ADC/DAC I/O timing/skew envelope is provisional/unmeasured. Peripheral completion does not prove register readback or PLLlock.
+SPI/DAC VIO permissions initialize off; controller initializes disabled. KEY1 does not reset VIO output values.
+Full details: hardware/INTEGRATION.md. Reproduce via run_checks.cmd.

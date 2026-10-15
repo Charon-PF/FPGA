@@ -1,0 +1,25 @@
+UPDATE VALIDATION — 2026-10-14, Vivado 2024.1
+Existing project: laser_lock_fpga.xpr
+Project ID preserved: b554849d7252411794d3ad94fe6d0156
+Original RTL modules preserved: 9 / 9
+Original XDC SHA256 preserved: 7E6C41E8086DDD85657EA61567C992580B64F30625516A86E5FFA6118F40DD56
+Target part: xcau15p-ffvb676-2-i
+
+Internal architecture: PD1 ADC abstraction -> offset/8-point filter -> 17-bit lock calibration -> optical slope normalization/loop gain -> freshest-sample servo scheduler -> P+I+D+second difference -> scaled/inverted/limited actuator -> generic DAC handoff.
+ADC abstraction accepts a continuous work-clock stream; 100 MHz work clock; 100 kHz default servo update (1000 clocks), minimum configured period 64 clocks.
+
+PASS: 2,429,098 ADC samples and 2,429 independently checked DAC outputs.
+PASS: Four slope/initial-offset combinations, each with resonance drift, thermal drift and noise.
+Tail error RMS (ADC codes): 2.2561, 2.6420, 2.3473, 2.5140.
+Maximum tail DAC step: 4, 5, 4, 5 codes. No integral saturation in four closed-loop cases.
+PASS: 59 original full-range PI2D arithmetic vectors.
+PASS: 74 added calibration, normalization, scheduler, actuator and projected anti-windup observations.
+PASS: Synthesis and routed implementation with 6-probe, 1024-sample ILA.
+Final independent min/max timing: WNS +0.156 ns, WHS +0.006 ns.
+Routed nets: 6798 / 6798; unconstrained internal endpoints: 0.
+Resources: 3225 LUTs, 4001 registers, 14 DSPs, 3 BRAM tiles.
+PASS: Final project run states are complete and current; default simulation top is tb_laser_lock.
+
+Pending hardware information: E15 tuning input type, voltage range, frequency/voltage gain, direction, bandwidth; DAC full scale and analog drive; ADC LVDS/CDC adaptation; actual board pin and I/O standards. NSTD-1/UCIO-1 remain; no bitstream generated.
+The test plant is a local linear optical slope model, not measured E15/cavity hardware.
+Vescent commercial PI²D is a two-integrator topology; the requested existing controller formula is retained and is not asserted to have the same transfer function.

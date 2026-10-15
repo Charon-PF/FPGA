@@ -1,0 +1,11 @@
+*.jou
+*.log
+*.str
+*.backup.*
+.Xil/
+laser_lock_fpga.cache/
+laser_lock_fpga.runs/
+laser_lock_fpga.sim/
+laser_lock_fpga.hw/
+laser_lock_fpga.ip_user_files/
+laser_lock_fpga.gen/

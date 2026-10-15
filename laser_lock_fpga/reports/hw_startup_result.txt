@@ -1,0 +1,9 @@
+PASS
+Decoded writes: 86
+Clock/ADC/DAC writes: 54/12/20
+Data bits after restart: 1904
+Aborted partial writes: 1
+250MHz ADC heartbeats per1ms: 244
+500MHz TX heartbeats per1ms: 488
+Stopped ADC/TX heartbeats: 0/0
+Mode0 wire decode; exact widths/edge counts; mutually exclusive CS; SDIO setup/hold; PLL wait;250MHz profile193=11/194=00/19e=11; ADC modes; DAC signed word/1x bypass/FIFO reset; disable abort/restart; actual3ms clock-rate and stop detection.

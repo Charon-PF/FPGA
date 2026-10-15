@@ -1,0 +1,9 @@
+PASS
+Real UNISIM integrated wrapper: board200MHz ADC250MHz DAC250MHz; core100MHz; 1ms clock health and reset/relock.
+Measured MMCM phase checks: ADCcapture375ps=519254 DACDCI625ps=519254
+ADC accepted checks: 78
+Physical I checks: 519241
+Physical Q checks: 519240
+Nonzero coherent I observations: 6246
+VIO request checks: 10
+Default-off permissions; combinational register read; toggle/pending/ack/error bridge; configuration clear gating; core disable clears stale code; invalid write visible; KEY1 defaults. SPI sequence_done alone bypassed: serial transactions have their separate regression.

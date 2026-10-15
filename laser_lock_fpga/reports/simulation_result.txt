@@ -1,0 +1,4 @@
+PASS: E15 side-of-fringe servo end-to-end simulation
+ADC samples=2429098; checked DAC outputs=2429; default update rate=100 kHz
+Four slope/offset cases; resonance drift, thermal drift, noise; worst tail RMS=2.6420 ADC codes
+Independent PI2D/actuator scoreboard, configuration handshake and actuator anti-windup passed

@@ -1,0 +1,7 @@
+PASS
+Checked feature observations: 74
+Normalizer vectors: 14
+Actuator vectors: 16
+Scheduler ticks: 11
+Controller projection vectors: 27
+Coverage: full 17-bit offset arithmetic; signed lock polarity/loop gain; three-cycle continuous-valid pipelines; 100kHz/64-cycle scheduler, freshest sample, skipped ticks and busy retention; scaling/inversion/limit; actuator-projected anti-windup, zero gain and recovery.

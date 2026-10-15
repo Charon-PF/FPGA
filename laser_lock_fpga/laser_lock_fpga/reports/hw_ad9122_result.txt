@@ -1,0 +1,4 @@
+PASS
+500MHz DDR observations: 2672
+250MHz DDR observations: 1800
+Real MMCM lock/relock; DCI delay500MHz=125ps/250MHz=625ps; receiver observations100ps/650ps afterDCI; I high/Q low two's-complement framing; signed limits; CDC hold/rapid latest-value updates; configuration gating; disable/re-enable; reset with outstanding transfer.

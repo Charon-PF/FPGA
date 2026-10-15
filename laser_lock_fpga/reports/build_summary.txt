@@ -1,0 +1,10 @@
+Vivado: 2024.1
+Part: xcau15p-ffvb676-2-i
+Synthesis: synth_design Complete!
+Implementation: route_design Complete!
+Worst setup slack (ns): 0.156
+Worst hold slack (ns): 0.006
+ILA: enabled, 6 probes, 1024 samples.
+Project top: laser_lock_board_top. Debug buses are internal.
+Pins/voltages: placeholders. No bitstream generated. UCIO-1/NSTD-1 not waived.
+E15 internal servo: signed calibration, slope polarity, configurable 100 kHz scheduler, scaled actuator anti-windup.

@@ -1,0 +1,4 @@
+case=0 slope=1 initial=1200 early_RMS=455.8978 tail_RMS=2.2561 max_DAC_step=4
+case=1 slope=1 initial=-1200 early_RMS=457.2651 tail_RMS=2.6420 max_DAC_step=5
+case=2 slope=-1 initial=1200 early_RMS=456.7147 tail_RMS=2.3473 max_DAC_step=4
+case=3 slope=-1 initial=-1200 early_RMS=457.1945 tail_RMS=2.5140 max_DAC_step=5

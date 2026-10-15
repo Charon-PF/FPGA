@@ -1,0 +1,80 @@
+[
+  {
+    "File": "adc_interface.v",
+    "SHA256": "868750856912BC59E33DEB2B3F38DC449EBA6A8D9BFEC2565F87A066D10EDCCA",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "clock_manager.v",
+    "SHA256": "5091C8F7017713C6FAB334DF05DED8AB9D288F7E6905D7772AF1D2940329060F",
+    "Unchanged": false,
+    "HardwareClockLayer": true
+  },
+  {
+    "File": "dac_interface.v",
+    "SHA256": "FF38E149FE78B54093F5DDEE2D6600AC2EBF7F367AADFAD1758B254804EAC9AB",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "error_filter.v",
+    "SHA256": "88D08A4AE09AD7E52BD42B4A238033087246C6C217A8B9448DE9E376B36AB38B",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "laser_actuator_output.v",
+    "SHA256": "418201402B0E4B90A77A2E9B4756BA42455A7D567F2A16D2490E24171BC5B3E9",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "laser_lock_board_top.v",
+    "SHA256": "DF67FC5A859C3479A4308149A8F8A9541D3B74DDA505E76423AA118F35CDAD28",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "laser_lock_top.v",
+    "SHA256": "229BE545B2C5C52BA43D73B72B2B5B8C1E8392DD56B99A60EFE0EFBCC929D150",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "lock_point_calibration.v",
+    "SHA256": "2238981247773652580269EDCFA98EA7F0B50E21FF70EE89FE38982B46204826",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "locking_error_normalizer.v",
+    "SHA256": "4A05BBDE76029B3E5B2F630CC44E3E729DF9B064531265EBFBCC13216E975808",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "parameter_register.v",
+    "SHA256": "B171452F767CA0D3E3663A151858A3F7B5C95C5C28B4EC84DA60FDA4D72152C9",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "pi2d_controller.v",
+    "SHA256": "4CC0AD38BD75F386928DCFC8E6B0DCFD529F99590BDAE77F1890D75B3102FCE3",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "saturation.v",
+    "SHA256": "B4CEF5D4D266EF4972D07DFCDBE6807CA7DECA5399A3BA36018A73E3EBDBFB8A",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  },
+  {
+    "File": "servo_scheduler.v",
+    "SHA256": "F7E4F320FF42CEC9C42784CF3A7BC36195DE7161A3F1CBACE929A7B02D779E58",
+    "Unchanged": true,
+    "HardwareClockLayer": false
+  }
+]

@@ -1,0 +1,3 @@
+PASS
+Checked controller vectors: 59
+Full 16-bit alternating extrema, 17-/18-bit differences, extreme signed coefficients, negative Ki, bias, hard integral limits, mid-flight coefficient/input changes, reset cancellation.

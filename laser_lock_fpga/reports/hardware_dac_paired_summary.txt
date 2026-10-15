@@ -1,0 +1,141 @@
+Independent in-memory qualification of the current routed checkpoint.
+Qualified checkpoint: C:/Users/V587/Documents/ChatGPT/laser_lock_fpga/laser_lock_fpga.runs/impl_1/laser_lock_hw_top_postroute_physopt.dcp
+Checkpoint modification time: 2026-10-14 19:04:07
+Endpoints: 16DATA P/N pairs and FRAME P/N (34 ports).
+Current clock profile: ADC250MHz phase375ps; DAC250MHz DCI625ps; core100MHz.
+u_rx/u_dco_mmcm CLKFBOUT_MULT_F = 4.000
+u_rx/u_dco_mmcm CLKOUT0_DIVIDE_F = 4.000
+u_rx/u_dco_mmcm CLKOUT0_PHASE = 33.750
+u_rx/u_dco_mmcm CLKOUT1_DIVIDE = 1
+u_rx/u_dco_mmcm CLKOUT1_PHASE = 0.000
+u_rx/u_dco_mmcm C_CLKFBOUT_MULT_F = 
+u_rx/u_dco_mmcm C_CLKOUT0_DIVIDE_F = 
+u_tx/u_clock_mmcm CLKFBOUT_MULT_F = 4.000
+u_tx/u_clock_mmcm CLKOUT0_DIVIDE_F = 4.000
+u_tx/u_clock_mmcm CLKOUT0_PHASE = 0.000
+u_tx/u_clock_mmcm CLKOUT1_DIVIDE = 4
+u_tx/u_clock_mmcm CLKOUT1_PHASE = 56.250
+u_tx/u_clock_mmcm C_CLKFBOUT_MULT_F = 
+u_tx/u_clock_mmcm C_CLKOUT0_DIVIDE_F = 
+Existing constraint worst setup slack(ns): 0.109
+Existing constraint worst hold slack(ns): 0.127
+Physical paired constraint worst setup slack(ns): 0.109
+Physical paired constraint worst hold slack(ns): 0.127
+PASS
+same-edge setup/opposite-edge hold; unrebased device+board envelope max0.100/min-0.800ns; no project/checkpoint changes saved.
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version      : Vivado v.2024.1 (win64) Build 5076996 Wed May 22 18:37:14 MDT 2024
+| Date              : Wed Oct 14 19:07:55 2026
+| Host              : DESKTOP-R7OLA88 running 64-bit major release  (build 9200)
+| Command           : report_clocks -return_string
+| Design            : laser_lock_hw_top
+| Device            : xcau15p-ffvb676
+| Speed File        : -2  PRODUCTION 1.30 03-14-2023
+| Design State      : Physopt postRoute
+| Temperature Grade : I
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+Clock Report
+
+
+Attributes
+  P: Propagated
+  G: Generated
+  A: Auto-derived
+  R: Renamed
+  V: Virtual
+  I: Inverted
+  S: Pin phase-shifted with Latency mode
+
+Clock                                                                                                Period(ns)  Waveform(ns)     Attributes  Sources
+adc_dco                                                                                              4.000       {0.000 2.000}    P           {adc_dco_p}
+dac_ref                                                                                              4.000       {0.000 2.000}    P           {fpga_clk_p}
+dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_inst/SERIES7_BSCAN.bscan_inst/INTERNAL_TCK  50.000      {0.000 25.000}   P           {dbg_hub/inst/BSCANID.u_xsdbm_id/SWITCH_N_EXT_BSCAN.bscan_inst/SERIES7_BSCAN.bscan_inst/INTERNAL_TCK}
+sys_ref                                                                                              5.000       {0.000 2.500}    P           {sys_clk_p}
+dac_dci_forwarded                                                                                    4.000       {0.000 2.000}    P,G         {dac_dci_p}
+spi_forwarded                                                                                        1000.000    {0.000 500.000}  P,G         {spi_clk}
+data_raw                                                                                             4.000       {0.000 2.000}    P,G,A       {u_tx/u_clock_mmcm/CLKOUT0}
+dci_raw                                                                                              4.000       {0.000 2.000}    P,G,A,S     {u_tx/u_clock_mmcm/CLKOUT1}
+dco_capture_unbuffered                                                                               4.000       {0.000 2.000}    P,G,A,S     {u_rx/u_dco_mmcm/CLKOUT0}
+dco_feedback                                                                                         4.000       {0.000 2.000}    P,G,A       {u_rx/u_dco_mmcm/CLKFBOUT}
+feedback_clock                                                                                       5.000       {0.000 2.500}    P,G,A       {u_core/u_clock/u_mmcm/CLKFBOUT}
+feedback_raw                                                                                         4.000       {0.000 2.000}    P,G,A       {u_tx/u_clock_mmcm/CLKFBOUT}
+work_unbuffered                                                                                      10.000      {0.000 5.000}    P,G,A       {u_core/u_clock/u_mmcm/CLKOUT0}
+
+
+====================================================
+Generated Clocks
+====================================================
+
+Generated Clock     : dac_dci_forwarded
+Master Source       : u_tx/u_clock_mmcm/CLKOUT1
+Master Clock        : dci_raw
+Divide By           : 1
+Generated Sources   : {dac_dci_p}
+
+Generated Clock     : spi_forwarded
+Master Source       : u_core/u_clock/u_mmcm/CLKOUT0
+Master Clock        : work_unbuffered
+Divide By           : 100
+Generated Sources   : {spi_clk}
+
+Generated Clock     : data_raw
+Master Source       : u_tx/u_clock_mmcm/CLKIN1
+Master Clock        : dac_ref
+Multiply By         : 1
+Generated Sources   : {u_tx/u_clock_mmcm/CLKOUT0}
+
+Generated Clock     : dci_raw
+Master Source       : u_tx/u_clock_mmcm/CLKIN1
+Master Clock        : dac_ref
+Multiply By         : 1
+Pin Phase Shift(ns) : 0.625  (56.2 degrees)
+Generated Sources   : {u_tx/u_clock_mmcm/CLKOUT1}
+
+Generated Clock     : dco_capture_unbuffered
+Master Source       : u_rx/u_dco_mmcm/CLKIN1
+Master Clock        : adc_dco
+Multiply By         : 1
+Pin Phase Shift(ns) : 0.375  (33.8 degrees)
+Generated Sources   : {u_rx/u_dco_mmcm/CLKOUT0}
+
+Generated Clock     : dco_feedback
+Master Source       : u_rx/u_dco_mmcm/CLKIN1
+Master Clock        : adc_dco
+Multiply By         : 1
+Generated Sources   : {u_rx/u_dco_mmcm/CLKFBOUT}
+
+Generated Clock     : feedback_clock
+Master Source       : u_core/u_clock/u_mmcm/CLKIN1
+Master Clock        : sys_ref
+Multiply By         : 1
+Generated Sources   : {u_core/u_clock/u_mmcm/CLKFBOUT}
+
+Generated Clock     : feedback_raw
+Master Source       : u_tx/u_clock_mmcm/CLKIN1
+Master Clock        : dac_ref
+Multiply By         : 1
+Generated Sources   : {u_tx/u_clock_mmcm/CLKFBOUT}
+
+Generated Clock     : work_unbuffered
+Master Source       : u_core/u_clock/u_mmcm/CLKIN1
+Master Clock        : sys_ref
+Edges               : {1 2 3}
+Edge Shifts(ns)     : {0.000 2.500 5.000}
+Generated Sources   : {u_core/u_clock/u_mmcm/CLKOUT0}
+
+
+
+====================================================
+User Uncertainty
+====================================================
+
+
+
+====================================================
+User Jitter
+====================================================
+
+
+
